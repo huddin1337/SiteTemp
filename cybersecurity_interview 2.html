@@ -1,0 +1,271 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{font-family:'DM Sans',sans-serif;background:#0a0a0b;color:#e8e6e0;min-height:100vh}
+
+.hero{padding:4rem 2rem 3rem;text-align:center;border-bottom:1px solid #1e1e22;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:500px;height:300px;background:radial-gradient(ellipse,rgba(80,60,220,0.18) 0%,transparent 70%);pointer-events:none}
+.hero-eyebrow{font-family:'Syne',sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#7c7a90;margin-bottom:1.25rem}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.1;letter-spacing:-.02em;background:linear-gradient(135deg,#e8e6e0 30%,#8b84ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1rem}
+.hero-sub{font-size:15px;color:#7c7a90;max-width:480px;margin:0 auto 2rem;line-height:1.6;font-weight:300}
+.hero-stats{display:flex;justify-content:center;gap:3rem}
+.stat{text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;color:#e8e6e0}
+.stat-label{font-size:11px;color:#7c7a90;letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+
+.search-bar{max-width:520px;margin:2rem auto 0;position:relative}
+.search-bar input{width:100%;background:#141416;border:1px solid #2a2a32;border-radius:10px;padding:12px 16px 12px 44px;color:#e8e6e0;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
+.search-bar input::placeholder{color:#4a4860}
+.search-bar input:focus{border-color:#5547c8}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#4a4860;font-size:16px}
+
+.grid-container{padding:2rem;max-width:900px;margin:0 auto}
+.section-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#4a4860;font-family:'Syne',sans-serif;margin-bottom:1.25rem;padding-left:2px}
+
+.chapter-card{background:#111113;border:1px solid #1e1e22;border-radius:14px;margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+.chapter-card.open{border-color:#2e2a5e}
+
+.chapter-header{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer;user-select:none;transition:background .15s}
+.chapter-header:hover{background:#161618}
+
+.chapter-num{font-family:'Syne',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;color:#5547c8;min-width:28px}
+
+.chapter-title-block{flex:1;min-width:0}
+.chapter-title{font-family:'Syne',sans-serif;font-size:14.5px;font-weight:600;color:#e8e6e0;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chapter-tagline{font-size:12px;color:#4a4860;font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.chapter-tags{display:flex;gap:6px;flex-shrink:0;align-items:center}
+.tag{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:500;letter-spacing:.04em;white-space:nowrap}
+.tag-red{background:rgba(162,45,45,.2);color:#e07070;border:1px solid rgba(162,45,45,.3)}
+.tag-blue{background:rgba(55,138,221,.15);color:#6aabf0;border:1px solid rgba(55,138,221,.25)}
+.tag-green{background:rgba(29,158,117,.15);color:#5dcaa5;border:1px solid rgba(29,158,117,.25)}
+.tag-purple{background:rgba(85,71,200,.2);color:#9b90ff;border:1px solid rgba(85,71,200,.3)}
+.tag-amber{background:rgba(186,117,23,.2);color:#f0b050;border:1px solid rgba(186,117,23,.3)}
+.tag-gray{background:rgba(100,100,110,.15);color:#8a8898;border:1px solid rgba(100,100,110,.25)}
+
+.chevron-btn{font-size:16px;color:#3a3850;transition:transform .25s,color .2s;flex-shrink:0}
+.chapter-card.open .chevron-btn{transform:rotate(180deg);color:#5547c8}
+
+.chapter-body{display:none;border-top:1px solid #1e1e22}
+.chapter-body.open{display:block}
+
+.body-inner{padding:24px 20px 20px}
+
+.meta-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.meta-pill{display:flex;align-items:center;gap:6px;background:#0e0e10;border:1px solid #1e1e22;border-radius:8px;padding:6px 12px;font-size:12px;color:#6a6880}
+.meta-pill i{font-size:14px;color:#5547c8}
+.meta-pill span{color:#c8c6d8}
+
+.summary-block{background:#0e0e10;border:1px solid #1e1e22;border-radius:10px;padding:16px;margin-bottom:18px}
+.summary-block p{font-size:13px;color:#8a8898;line-height:1.7;font-weight:300}
+
+.topics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:18px}
+.topic-item{background:#0e0e10;border:1px solid #1e1e22;border-radius:8px;padding:10px 12px;font-size:12px;color:#8a8898;display:flex;align-items:center;gap:8px;line-height:1.4}
+.topic-dot{width:5px;height:5px;border-radius:50%;background:#5547c8;flex-shrink:0}
+
+.difficulty-bar{display:flex;gap:3px;margin-bottom:18px;align-items:center}
+.difficulty-label{font-size:11px;color:#4a4860;letter-spacing:.08em;text-transform:uppercase;min-width:90px}
+.diff-pip{height:4px;flex:1;border-radius:2px;background:#1e1e22}
+.diff-pip.filled{background:#5547c8}
+.diff-pip.filled.hard{background:#a32d2d}
+.diff-pip.filled.medium{background:#854f0b}
+
+.study-btn{display:inline-flex;align-items:center;gap:8px;background:#5547c8;color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:background .15s,transform .1s}
+.study-btn:hover{background:#6658e0}
+.study-btn:active{transform:scale(.98)}
+
+.no-results{text-align:center;padding:4rem 2rem;color:#4a4860;font-size:14px}
+.no-results i{font-size:32px;display:block;margin-bottom:.75rem}
+
+.filter-row{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.filter-btn{background:#111113;border:1px solid #1e1e22;border-radius:8px;padding:6px 14px;font-size:12px;color:#6a6880;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.filter-btn:hover{border-color:#2e2a5e;color:#9b90ff}
+.filter-btn.active{background:#1a1840;border-color:#5547c8;color:#9b90ff}
+
+.progress-strip{background:#0e0e10;border:1px solid #1e1e22;border-radius:12px;padding:16px 20px;margin-bottom:1.5rem;display:flex;align-items:center;gap:16px}
+.progress-text{flex:1}
+.progress-title{font-size:13px;font-weight:500;color:#c8c6d8;margin-bottom:2px}
+.progress-sub{font-size:11px;color:#4a4860}
+.progress-track{flex:2;height:4px;background:#1e1e22;border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#5547c8,#8b84ff);border-radius:2px;width:0;transition:width 1s ease}
+.progress-pct{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;color:#5547c8;min-width:36px;text-align:right}
+</style>
+
+<h2 class="sr-only">Cybersecurity Essentials — interactive study guide covering all 15 chapters with summaries, key topics, and difficulty ratings</h2>
+
+<div class="hero">
+  <p class="hero-eyebrow">Cyber Security Essentials · Complete Study Guide</p>
+  <h1>Master the full<br>curriculum</h1>
+  <p class="hero-sub">15 chapters · 150 interview questions · every major domain from OS fundamentals to law &amp; compliance</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">15</div><div class="stat-label">Chapters</div></div>
+    <div class="stat"><div class="stat-num">150</div><div class="stat-label">Questions</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Domains</div></div>
+  </div>
+  <div class="search-bar">
+    <i class="ti ti-search search-icon" aria-hidden="true"></i>
+    <input type="text" id="search-input" placeholder="Search chapters, topics, tools…" aria-label="Search chapters">
+  </div>
+</div>
+
+<div class="grid-container">
+
+  <div class="progress-strip">
+    <div class="progress-text">
+      <div class="progress-title">Study progress</div>
+      <div class="progress-sub">Click chapters to open and study</div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-pct" id="progress-pct">0%</div>
+  </div>
+
+  <div class="filter-row" id="filter-row">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="red">Red team</button>
+    <button class="filter-btn" data-filter="blue">Blue team</button>
+    <button class="filter-btn" data-filter="compliance">Compliance</button>
+    <button class="filter-btn" data-filter="development">Dev security</button>
+    <button class="filter-btn" data-filter="fundamentals">Fundamentals</button>
+  </div>
+
+  <p class="section-label">All chapters</p>
+  <div id="chapters-list"></div>
+  <div class="no-results" id="no-results" style="display:none">
+    <i class="ti ti-search" aria-hidden="true"></i>
+    No chapters match your search.
+  </div>
+</div>
+
+<script>
+const chapters=[
+  {num:"01",title:"UNIX, Linux &amp; Windows",tagline:"OS fundamentals, SSH hardening, Active Directory, Kerberos",tags:["fundamentals","blue"],tagLabels:["Fundamentals","Blue team"],difficulty:2,questions:10,topics:["Bash shells &amp; kernel","SSH hardening (sshd_config)","FTP vs SFTP vs FTPS","File permissions (chmod)","Active Directory &amp; LDAP","NTLM vs Kerberos","Pass-the-hash &amp; Golden Ticket","cron jobs &amp; automation"],summary:"Covers OS-layer fundamentals that underpin nearly every security role. SSH hardening, Active Directory domain structure, Kerberos TGT/TGS flows, and common credential attacks like pass-the-hash and Golden Ticket attacks.",filters:["fundamentals","blue"]},
+  {num:"02",title:"Networking, Routing &amp; Protocols",tagline:"OSI model, TCP/IP, routing attacks, iptables",tags:["fundamentals","blue"],tagLabels:["Fundamentals","Blue team"],difficulty:2,questions:10,topics:["OSI 7 layers &amp; attack mapping","TCP 3-way handshake","TCP flags (SYN/FIN/RST/ACK)","Routing protocols (OSPF, BGP)","IP subnetting &amp; CIDR","iptables (chains, rules)","SYN flood &amp; DoS attacks","VLAN hopping"],summary:"Deep dive into the OSI model with attack-to-layer mapping, TCP/IP fundamentals, routing protocol attacks, and practical iptables firewall rules. The OSI layer→attack mapping is a staple interview topic.",filters:["fundamentals","blue"]},
+  {num:"03",title:"Security of DBMS &amp; SQL",tagline:"SQL injection types, ACID properties, database hardening",tags:["fundamentals","red"],tagLabels:["Fundamentals","Red team"],difficulty:3,questions:10,topics:["ACID properties","SQL injection types","In-band vs blind vs OOB","Prepared statements &amp; ORM","NoSQL (MongoDB, Cassandra)","3-tier architecture","Database hardening","Least privilege on DB accounts"],summary:"SQL injection taxonomy (in-band union/error, blind boolean/time-based, out-of-band DNS) with defenses via parameterized queries and ORMs. Covers ACID guarantees and relational vs NoSQL trade-offs.",filters:["fundamentals","red"]},
+  {num:"04",title:"Threat Modeling, Pentesting &amp; Secure Coding",tagline:"STRIDE, DREAD, PASTA, pentest phases, OWASP Top 10",tags:["red","development"],tagLabels:["Red team","Dev security"],difficulty:3,questions:10,topics:["STRIDE / DREAD / PASTA","Pentest phases (5-step)","Black / white / gray box","SAST vs DAST vs IAST","OWASP Top 10 (2017)","SonarQube &amp; OWASP ZAP","Vulnerability patching lifecycle","TruffleHog secrets detection"],summary:"Threat modeling frameworks compared, full penetration testing lifecycle, and the SAST/DAST/IAST toolchain. The OWASP Top 10 and vulnerability management lifecycle are core SOC knowledge.",filters:["red","development"]},
+  {num:"05",title:"Application Security",tagline:"OWASP Top 10 (2021), XSS, CSRF, WAF, security headers",tags:["red","development"],tagLabels:["Red team","Dev security"],difficulty:3,questions:10,topics:["OWASP Top 10 (2021)","Stored / reflected / DOM XSS","CSRF vs SSRF","LFI / RFI / directory traversal","WAF &amp; Content Security Policy","CORS &amp; Same-Origin Policy","Security headers (HSTS, CSP)","Burp Suite &amp; SQLMap"],summary:"Application-layer vulnerabilities with the updated 2021 OWASP Top 10. XSS types, CSRF vs SSRF distinctions, and the full web security header stack. Practical with Burp Suite and SQLMap tooling.",filters:["red","development"]},
+  {num:"06",title:"Network Security",tagline:"Nmap, Metasploit, Meterpreter, firewalls, SIEM stack",tags:["red","blue"],tagLabels:["Red team","Blue team"],difficulty:4,questions:10,topics:["Nmap scan types cheat sheet","Metasploit workflow","Meterpreter post-exploitation","EternalBlue MS17-010","Mimikatz / Kiwi","Reverse shells vs bind shells","Firewall types &amp; best practices","VLAN hopping (Yersinia)"],summary:"Full Nmap scan type reference, Metasploit/Meterpreter workflow from exploitation to post-exploitation, and network defense stack (SIEM, EDR, IDS/IPS, DLP). The lsa_dump_secrets and pass-the-hash material is high-yield for SOC interviews.",filters:["red","blue"]},
+  {num:"07",title:"Cloud Security",tagline:"AWS/Azure/GCP, IAM misconfig, shared responsibility, Pacu",tags:["blue","fundamentals"],tagLabels:["Blue team","Fundamentals"],difficulty:4,questions:10,topics:["Shared responsibility model","EC2 metadata SSRF attack","IAM misconfig (top attack vector)","AWS GuardDuty &amp; CloudTrail","Pacu / ScoutSuite / Prowler","Public S3 bucket risks","Cloud privilege escalation","Multi-cloud service comparison"],summary:"Cloud security fundamentals with the shared responsibility model, IAM misconfiguration as the #1 cloud attack vector, EC2 metadata SSRF exploitation, and AWS defense services. Includes multi-cloud (AWS/Azure/GCP) service equivalents table.",filters:["blue","fundamentals"]},
+  {num:"08",title:"Red &amp; Blue Teaming",tagline:"Kill chain, Evilginx, MITRE ATT&amp;CK, purple teaming",tags:["red","blue"],tagLabels:["Red team","Blue team"],difficulty:4,questions:10,topics:["Red team kill chain","Purple teaming &amp; color teams","Evilginx MFA bypass","Veil Framework (AV evasion)","MITRE ATT&amp;CK 14 tactics","ARP spoofing &amp; MAC flooding","Network routing attacks","Rubber Ducky &amp; hardware tools"],summary:"Full red team vs pentest distinction, the MITRE ATT&amp;CK framework, Evilginx MFA bypass via reverse proxy session token theft, and hardware attack tools. Purple teaming and the color team framework round out the chapter.",filters:["red","blue"]},
+  {num:"09",title:"Security in SDLC",tagline:"Shift left, Git hooks, secrets detection, secure CI/CD",tags:["development","blue"],tagLabels:["Dev security","Blue team"],difficulty:3,questions:10,topics:["Shift left (60x cost NIST stat)","Pre-commit / post-commit hooks","Signed commits (GPG)","Dependabot &amp; CodeQL","Git Secrets / TruffleHog / Gitrob","Secure SDLC 7 stages","SAST with SonarQube","Design review vs designed review"],summary:"Integrating security throughout the software development lifecycle. Pre/post-commit hooks, secrets detection toolchain, GPG-signed commits, and enforced PR reviews. The 60x cost-to-fix statistic is interview gold.",filters:["development","blue"]},
+  {num:"10",title:"Security in CI/CD",tagline:"Supply chain attacks, PPE, Vault, perfect forward secrecy",tags:["development","red"],tagLabels:["Dev security","Red team"],difficulty:4,questions:10,topics:["Poisoned pipeline execution (PPE)","Dependency confusion attack","SBOM &amp; SCA scanning","HashiCorp Vault (AppRole auth)","Artifact signing (Sigstore)","Perfect forward secrecy","Ephemeral keys (ECDHE)","DefectDojo issue triage"],summary:"CI/CD as a high-value attack target — PPE, inadequate PBAC, secrets leakage, and supply chain compromise (SolarWinds, CircleCI). Vault AppRole auth, artifact signing, and perfect forward secrecy with Heartbleed context.",filters:["development","red"]},
+  {num:"11",title:"Firewalls, EDR, Anti-Malware &amp; UTMs",tagline:"Firewall types, EDR bypass, APTs, fileless malware",tags:["blue","red"],tagLabels:["Blue team","Red team"],difficulty:4,questions:10,topics:["Packet filtering vs stateful vs NGFW","EDR behavioral analysis","Process hollowing","Thread injection (Meterpreter)","Living off the land (LotL)","Fileless malware (WMI, IEX)","Cuckoo sandbox &amp; MISP","APT detection (Vectra AI)"],summary:"Firewall evolution from packet filtering to NGFW, EDR principles and SIEM integration, APT detection toolchain, and the complete EDR evasion playbook (process hollowing, thread injection, reflective DLL, LotL, fileless). High-yield for SOC interviews.",filters:["blue","red"]},
+  {num:"12",title:"SIEM",tagline:"ELK Stack, event correlation, anomaly detection, UEBA",tags:["blue","fundamentals"],tagLabels:["Blue team","Fundamentals"],difficulty:3,questions:10,topics:["Log aggregation &amp; normalization","Event correlation","Anomaly detection &amp; baselines","UEBA &amp; risk scoring","ELK: Beats→Logstash→ES→Kibana","Grok filter parsing","SIEM deployment models","SIEM vs UTM vs DLP"],summary:"The SOC analyst's primary tool. Event correlation, anomaly detection with ML (isolation forest, clustering), UEBA, and full ELK Stack architecture. The Tier 1 brute force triage scenario in Q10 is essential interview prep.",filters:["blue","fundamentals"]},
+  {num:"13",title:"Spreading Security Awareness",tagline:"CTF types, kill chain triage, secure coding, defense in depth",tags:["blue","fundamentals"],tagLabels:["Blue team","Fundamentals"],difficulty:2,questions:10,topics:["CTF types (Jeopardy / Attack-Defense)","Kill chain 1: GitHub→Production","Kill chain 2: Jenkins→Backdoor","Defense in depth layers","Secure coding practices","Shift left culture","Security by design","Building awareness programs"],summary:"Security awareness through gamification (CTFs) and kill chain triage sessions. Two detailed kill chains show how individual developer mistakes chain into full production compromises. The most effective awareness technique is walking developers through real attack chains.",filters:["blue","fundamentals"]},
+  {num:"14",title:"Law &amp; Compliance",tagline:"HIPAA, PCI-DSS, GDPR, CCPA, ISO 27001, NIST CSF",tags:["compliance","blue"],tagLabels:["Compliance","Blue team"],difficulty:3,questions:10,topics:["ISO 27001 (ISMS, certifiable)","COBIT (IT governance, ISACA)","NIST CSF 5 functions","HIPAA Privacy &amp; Security Rules","PCI-DSS 6 objectives","GDPR 72-hour breach notification","CCPA consumer rights","Compliance ≠ security"],summary:"Major audit frameworks (ISO 27001, COBIT, NIST CSF) compared, with deep dives into HIPAA, PCI-DSS, GDPR, and CCPA. The critical insight: compliance is a floor, not a ceiling — Target was PCI-DSS compliant when 40M cards were stolen.",filters:["compliance","blue"]},
+  {num:"15",title:"Python, Bash &amp; PowerShell",tagline:"Scapy, PyCryptodome, Volatility, PowerSploit, Red Team Bash",tags:["red","development"],tagLabels:["Red team","Dev security"],difficulty:4,questions:10,topics:["Scapy packet crafting","AES / SHA-256 / RSA (PyCryptodome)","Volatility memory forensics","Pymem process injection","PowerSploit (Invoke-Mimikatz)","IEX download-and-execute","PowerShell script block logging","Bash Red Team automation"],summary:"The scripting language trifecta for security professionals. Python libraries (Scapy, PyCryptodome, Volatility), PowerShell's dual offensive/defensive role, and Bash as the universal Red Team automation language on Unix/Linux systems.",filters:["red","development"]},
+];
+
+const difficultyLabels=["","Beginner","Intermediate","Intermediate","Advanced","Expert"];
+const tagColorMap={red:"tag-red",blue:"tag-blue",green:"tag-green",purple:"tag-purple",amber:"tag-amber",gray:"tag-gray",compliance:"tag-green",fundamentals:"tag-gray",development:"tag-blue"};
+
+let openedChapters=new Set();
+let activeFilter="all";
+
+function getDiffColor(d){
+  if(d<=2)return"";
+  if(d===3)return"medium";
+  return"hard";
+}
+
+function renderCard(ch,idx){
+  const dc=getDiffColor(ch.difficulty);
+  const pips=[1,2,3,4,5].map(i=>`<div class="diff-pip${i<=ch.difficulty?' filled '+(i>3?dc:''):''}"></div>`).join('');
+  const tagHtml=ch.tags.map((t,i)=>`<span class="tag ${tagColorMap[t]||'tag-gray'}">${ch.tagLabels[i]}</span>`).join('');
+  const topicHtml=ch.topics.map(t=>`<div class="topic-item"><div class="topic-dot"></div><span>${t}</span></div>`).join('');
+  return`<div class="chapter-card" id="card-${idx}" data-filters="${ch.filters.join(' ')}">
+    <div class="chapter-header" onclick="toggleCard(${idx})" role="button" aria-expanded="false" aria-controls="body-${idx}">
+      <span class="chapter-num">CH${ch.num}</span>
+      <div class="chapter-title-block">
+        <div class="chapter-title">${ch.title}</div>
+        <div class="chapter-tagline">${ch.tagline}</div>
+      </div>
+      <div class="chapter-tags">${tagHtml}</div>
+      <i class="ti ti-chevron-down chevron-btn" aria-hidden="true"></i>
+    </div>
+    <div class="chapter-body" id="body-${idx}">
+      <div class="body-inner">
+        <div class="meta-row">
+          <div class="meta-pill"><i class="ti ti-help-circle" aria-hidden="true"></i><span>${ch.questions} interview questions</span></div>
+          <div class="meta-pill"><i class="ti ti-signal" aria-hidden="true"></i><span>${difficultyLabels[ch.difficulty]}</span></div>
+          <div class="meta-pill"><i class="ti ti-list" aria-hidden="true"></i><span>${ch.topics.length} key topics</span></div>
+        </div>
+        <div class="summary-block"><p>${ch.summary}</p></div>
+        <p class="section-label" style="margin-bottom:.75rem">Key topics</p>
+        <div class="topics-grid" style="margin-bottom:18px">${topicHtml}</div>
+        <p class="section-label" style="margin-bottom:.5rem">Difficulty</p>
+        <div class="difficulty-bar" style="margin-bottom:18px">
+          <span class="difficulty-label">${difficultyLabels[ch.difficulty]}</span>
+          ${pips}
+        </div>
+        <button class="study-btn" onclick="openStudyGuide(${idx})">
+          <i class="ti ti-book" aria-hidden="true"></i> Open full study guide
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleCard(idx){
+  const card=document.getElementById('card-'+idx);
+  const body=document.getElementById('body-'+idx);
+  const header=card.querySelector('.chapter-header');
+  const isOpen=card.classList.contains('open');
+  card.classList.toggle('open',!isOpen);
+  body.classList.toggle('open',!isOpen);
+  header.setAttribute('aria-expanded',String(!isOpen));
+  if(!isOpen){
+    openedChapters.add(idx);
+    updateProgress();
+  }
+}
+
+function updateProgress(){
+  const pct=Math.round((openedChapters.size/chapters.length)*100);
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('progress-pct').textContent=pct+'%';
+}
+
+function openStudyGuide(idx){
+  const ch=chapters[idx];
+  sendPrompt(`Open the full interactive study guide for Chapter ${parseInt(ch.num)} — ${ch.title.replace(/&amp;/g,'&')} — with the 3-tab Summary/Key Terms/Interview Questions widget`);
+}
+
+function applyFilters(){
+  const q=document.getElementById('search-input').value.toLowerCase().trim();
+  let visible=0;
+  chapters.forEach((ch,i)=>{
+    const card=document.getElementById('card-'+i);
+    if(!card)return;
+    const filterMatch=activeFilter==='all'||ch.filters.includes(activeFilter);
+    const searchMatch=!q||
+      ch.title.toLowerCase().includes(q)||
+      ch.tagline.toLowerCase().includes(q)||
+      ch.topics.some(t=>t.toLowerCase().includes(q))||
+      ch.summary.toLowerCase().includes(q)||
+      ch.tagLabels.some(t=>t.toLowerCase().includes(q));
+    const show=filterMatch&&searchMatch;
+    card.style.display=show?'block':'none';
+    if(show)visible++;
+  });
+  document.getElementById('no-results').style.display=visible===0?'block':'none';
+}
+
+document.getElementById('filter-row').querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter=btn.dataset.filter;
+    applyFilters();
+  });
+});
+
+document.getElementById('search-input').addEventListener('input',applyFilters);
+
+const list=document.getElementById('chapters-list');
+list.innerHTML=chapters.map((ch,i)=>renderCard(ch,i)).join('');
+
+setTimeout(()=>{document.getElementById('progress-fill').style.width='0%'},100);
+</script>

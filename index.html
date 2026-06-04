@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Haarith Uddin — Cybersecurity Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── CSS Variables ─────────────────────────────── */
+    :root {
+      --bg:        #0d0f14;
+      --surface:   #13161e;
+      --border:    #1e2330;
+      --border-hi: #2e3650;
+      --accent:    #00e5ff;
+      --accent2:   #7b61ff;
+      --text:      #c8cfe0;
+      --text-dim:  #5a6480;
+      --text-hi:   #edf0f8;
+      --green:     #00ffa3;
+      --yellow:    #ffd166;
+      --red:       #ff6b6b;
+      --card-h:    220px;
+    }
+
+    /* ─── Reset ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── Scanline overlay ───────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,.08) 2px,
+        rgba(0,0,0,.08) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ─── Grid noise background ──────────────────────── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: .35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── Layout wrapper ─────────────────────────────── */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ─── Header ─────────────────────────────────────── */
+    header {
+      padding: 60px 0 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-tag::before {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .header-name {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 700;
+      color: var(--text-hi);
+      line-height: 1.1;
+      letter-spacing: -.02em;
+    }
+
+    .header-name .accent { color: var(--accent); }
+
+    .header-sub {
+      margin-top: 14px;
+      font-size: 15px;
+      color: var(--text-dim);
+      font-weight: 300;
+      max-width: 520px;
+      line-height: 1.6;
+    }
+
+    .badges {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 2px;
+      border: 1px solid;
+      letter-spacing: .05em;
+    }
+    .badge.green  { border-color: var(--green);  color: var(--green); }
+    .badge.yellow { border-color: var(--yellow); color: var(--yellow); }
+    .badge.blue   { border-color: var(--accent); color: var(--accent); }
+    .badge.purple { border-color: var(--accent2);color: var(--accent2); }
+
+    /* ─── Section headers ────────────────────────────── */
+    .section {
+      padding: 52px 0 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .section-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-hi);
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section-count {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+
+    /* ─── Card grid ──────────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    /* ─── Card ───────────────────────────────────────── */
+    .card {
+      display: block;
+      text-decoration: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px 26px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+
+    .card::before {
+      /* top-left accent line */
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--card-accent, var(--accent));
+      opacity: 0;
+      transition: opacity .2s;
+    }
+
+    .card:hover {
+      border-color: var(--border-hi);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.5);
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card-icon {
+      font-size: 22px;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .card-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-hi);
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .card-footer {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--card-accent, var(--accent));
+      opacity: .75;
+    }
+
+    .card-arrow {
+      font-size: 14px;
+      color: var(--text-dim);
+      transition: color .2s, transform .2s;
+    }
+    .card:hover .card-arrow {
+      color: var(--card-accent, var(--accent));
+      transform: translateX(4px);
+    }
+
+    /* ─── Category accent overrides ──────────────────── */
+    .cat-notes  { --card-accent: var(--accent); }
+    .cat-recipe { --card-accent: var(--green); }
+
+    /* ─── Footer ─────────────────────────────────────── */
+    footer {
+      margin-top: 80px;
+      padding: 32px 0 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .footer-text span { color: var(--accent); }
+
+    /* ─── Responsive ─────────────────────────────────── */
+    @media (max-width: 600px) {
+      .card-grid { grid-template-columns: 1fr; }
+      header { padding: 40px 0 30px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- ── Header ─────────────────────────────────── -->
+  <header>
+    <p class="header-tag">portfolio.index</p>
+    <h1 class="header-name">Haarith<br><span class="accent">Uddin_</span></h1>
+    <p class="header-sub">
+      Cybersecurity graduate &amp; Security+ certified analyst. 
+      Study notes, toolkits, and resources built in the pursuit of a SOC Analyst role.
+    </p>
+    <div class="badges">
+      <span class="badge green">CompTIA Security+</span>
+      <span class="badge yellow">Network+ (In Progress)</span>
+      <span class="badge blue">SOC Analyst Candidate</span>
+      <span class="badge purple">TryHackMe Legend</span>
+    </div>
+  </header>
+
+  <!-- ════════════════════════════════════════════
+       SECTION: NOTES
+       ════════════════════════════════════════════
+       HOW TO ADD A NEW NOTE:
+       1. Upload your .html file to your GitHub repo (same folder as index.html)
+       2. Copy any <a class="card cat-notes"> block below
+       3. Update the href="YOUR_FILE.html" attribute
+       4. Update the card-title, card-desc, and card-tag text
+       5. Save and push — GitHub Pages will rebuild automatically
+  ═══════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">category</span>
+      <h2 class="section-title">📂 Notes</h2>
+      <div class="section-line"></div>
+      <span class="section-count">5 files</span>
+    </div>
+
+    <div class="card-grid">
+
+      <!-- ── Card 1 ─── -->
+      <!-- FILE: ccna_volume1_study.html -->
+      <a class="card cat-notes" href="ccna_volume1_study.html">
+        <span class="card-icon">🌐</span>
+        <p class="card-title">CCNA Volume 1 — Study Notes</p>
+        <p class="card-desc">
+          Networking fundamentals from CCNA Vol. 1: OSI model, IP addressing, 
+          subnetting, switching, and routing concepts.
+        </p>
+        <div class="card-footer">
+          <span class="card-tag">networking</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- ── Card 2 ─── -->
+      <!-- FILE: cyber-roadmap.html -->
+      <a class="card cat-notes" href="cyber-roadmap.html">
+        <span class="card-icon">🗺️</span>
+        <p class="card-title">Cybersecurity Roadmap</p>
+        <p class="card-desc">
+          Structured career roadmap for breaking into cybersecurity — 
+          certifications, skills, and milestones to hit as a SOC Analyst candidate.
+        </p>
+        <div class="card-footer">
+          <span class="card-tag">career / roadmap</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- ── Card 3 ─── -->
+      <!-- FILE: cybersecurity_interview.html -->
+      <a class="card cat-notes" href="cybersecurity_interview.html">
+        <span class="card-icon">🎯</span>
+        <p class="card-title">Cybersecurity Interview Study Guide</p>
+        <p class="card-desc">
+          Core interview topics and Q&amp;A for cybersecurity analyst roles — 
+          threats, frameworks, incident response, and SOC fundamentals.
+        </p>
+        <div class="card-footer">
+          <span class="card-tag">interview prep</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- ── Card 4 ─── -->
+      <!-- FILE: cybersecurity_interview_2.html -->
+      <a class="card cat-notes" href="cybersecurity_interview_2.html">
+        <span class="card-icon">📖</span>
+        <p class="card-title">Cybersecurity Essentials — Full Curriculum</p>
+        <p class="card-desc">
+          Interactive study guide covering all 15 chapters of 
+          <em>Cyber Security Essentials</em> with summaries, key topics, and difficulty ratings.
+        </p>
+        <div class="card-footer">
+          <span class="card-tag">15-chapter guide</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- ── Card 5 ─── -->
+      <!-- FILE: cybersecurity_toolkit_scripts.html -->
+      <a class="card cat-notes" href="cybersecurity_toolkit_scripts.html">
+        <span class="card-icon">🛠️</span>
+        <p class="card-title">Blue Team Toolkit — Project Scripts</p>
+        <p class="card-desc">
+          Practical SOC scripts and automation tools for blue team defenders — 
+          network diagnostics, log parsing, and triage workflows.
+        </p>
+        <div class="card-footer">
+          <span class="card-tag">scripts / blue team</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- ════════════════════════════════════════════
+           ▶ TO ADD ANOTHER NOTE — copy this block:
+
+      <a class="card cat-notes" href="YOUR_FILE_NAME.html">
+        <span class="card-icon">📄</span>
+        <p class="card-title">Your Page Title</p>
+        <p class="card-desc">
+          Short description of what this note covers.
+        </p>
+        <div class="card-footer">
+          <span class="card-tag">your tag</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+           Don't forget to update the section-count above to match!
+      ═══════════════════════════════════════════════ -->
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SECTION: RECIPES
+       ════════════════════════════════════════════
+       HOW TO ADD A RECIPE:
+       1. Upload your recipe .html file to the same repo folder
+       2. Copy a <a class="card cat-recipe"> block below
+       3. Update href, title, desc, and tag
+       4. Update the section-count number
+  ═══════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">category</span>
+      <h2 class="section-title">🍳 Recipes</h2>
+      <div class="section-line"></div>
+      <span class="section-count">0 files</span>
+    </div>
+
+    <div class="card-grid">
+
+      <!-- Placeholder card — shown until you add real recipes -->
+      <div class="card cat-recipe" style="opacity:.45; cursor: default;">
+        <span class="card-icon">➕</span>
+        <p class="card-title">Add your first recipe</p>
+        <p class="card-desc">
+          Upload a recipe HTML file to your repo, then copy the card template 
+          from the comment below and update the href and text.
+        </p>
+        <div class="card-footer">
+          <span class="card-tag">coming soon</span>
+          <span class="card-arrow">—</span>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════
+           ▶ TO ADD A RECIPE — copy this block:
+
+      <a class="card cat-recipe" href="YOUR_RECIPE_FILE.html">
+        <span class="card-icon">🍽️</span>
+        <p class="card-title">Recipe Name</p>
+        <p class="card-desc">
+          Short description of the dish or what the recipe covers.
+        </p>
+        <div class="card-footer">
+          <span class="card-tag">category · cuisine</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </a>
+
+           Then delete the placeholder card above and update the file count!
+      ═══════════════════════════════════════════════ -->
+
+    </div>
+  </section>
+
+  <!-- ─── Footer ────────────────────────────────────── -->
+  <footer>
+    <p class="footer-text">
+      <span>Haarith Uddin</span> · Cybersecurity Portfolio · Houston, TX
+    </p>
+    <p class="footer-text">
+      Built with GitHub Pages · CompTIA Security<span>+</span> Certified
+    </p>
+  </footer>
+
+</div><!-- /wrapper -->
+</body>
+</html>
